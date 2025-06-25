@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/home/introduce.dart';
 import 'package:lunary/screens/home/prompt_example.dart';
+import 'package:lunary/widgets/chat_input_field.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: ChatInputField(),
     );
   }
 }
