@@ -3,78 +3,60 @@ import 'package:flutter/material.dart';
 class PromptExample extends StatelessWidget {
   const PromptExample({super.key});
 
+  // 테두리에 그라디언트 색상을 적용하기 위한 커스텀 버튼
+  Widget _gradientOutlineButton(String text) {
+    return Container(
+      width: 300,
+      height: 45,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFFFFC1C1), Color(0xFFFFE1B5)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(2.0), // 테두리 두께
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(6),
+            onTap: () {
+              // TODO: 예시 프롬프트 버튼 로직
+            },
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // 프롬프트 버튼 1
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(300, 45),
-            side: BorderSide(width: 2.0, color: Color(0xFFFDAC9C)),
-            alignment: Alignment.centerLeft,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '예시 프롬프트 1',
-              style: TextStyle(fontSize: 15, color: Colors.black),
-            ),
-          ),
-        ),
-
-        // 프롬프트 버튼 2
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(300, 45),
-            side: BorderSide(width: 2.0, color: Color(0xFFFDAC9C)),
-            alignment: Alignment.centerLeft,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '예시 프롬프트 2',
-              style: TextStyle(fontSize: 15, color: Colors.black),
-            ),
-          ),
-        ),
-
-        // 프롬프트 버튼 3
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(300, 45),
-            side: BorderSide(width: 2.0, color: Color(0xFFFDAC9C)),
-            alignment: Alignment.centerLeft,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '예시 프롬프트 3',
-              style: TextStyle(fontSize: 15, color: Colors.black),
-            ),
-          ),
-        ),
-
-        // 프롬프트 버튼 4
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(300, 45),
-            side: BorderSide(width: 2.0, color: Color(0xFFFDAC9C)),
-            alignment: Alignment.centerLeft,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '예시 프롬프트 4',
-              style: TextStyle(fontSize: 15, color: Colors.black),
-            ),
-          ),
-        ),
+        _gradientOutlineButton('예시 프롬프트 1'),
+        SizedBox(height: 12),
+        _gradientOutlineButton('예시 프롬프트 2'),
+        SizedBox(height: 12),
+        _gradientOutlineButton('예시 프롬프트 3'),
+        SizedBox(height: 12),
+        _gradientOutlineButton('예시 프롬프트 4'),
       ],
     );
   }
