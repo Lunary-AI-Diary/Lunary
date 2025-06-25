@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunary/screens/splash_screen.dart';
+import 'package:lunary/screens/splash/splash_screen.dart';
 
 void main() {
   runApp(const LunaryApp());
