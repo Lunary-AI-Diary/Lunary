@@ -32,6 +32,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Color(0xFFFFF5EF),
 
         // 오른쪽 버튼
+        actionsPadding: EdgeInsets.only(right: 13),
         actions: <Widget>[
           // 달력 버튼
           IconButton(
