@@ -18,13 +18,12 @@ class Introduce extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 30),
         Text(
           '하루 동안 당신이 느끼고 경험한 것을 말씀해 주세요.\n공감하며 이해심있는 태도로 듣겠습니다.',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, color: Colors.black),
         ),
-        SizedBox(height: 30),
       ],
     );
   }

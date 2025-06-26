@@ -10,6 +10,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+// 현재 스플래시 화면은 실제 로딩 기능을 갖고 있지 않고 단지 3초후 HomeScree으로 넘어감
+// TODO: 서버 연동 후 실제 로딩 기능 만들기
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
