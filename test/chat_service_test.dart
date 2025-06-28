@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:lunary/services/chat_service.dart';
+import 'package:lunary/services/openai_service.dart';
 
 void main() {
   test('ChatService 테스트', () async {

@@ -5,7 +5,9 @@ class ChatInputField extends StatefulWidget {
   // 외부에서 이 위젯을 사용할 때 메시지 처리 ChatInputField 생성자로 연결할 수 있음
   final void Function(String)? onSend;
 
-  const ChatInputField({super.key, this.onSend});
+  final bool isLoading;
+
+  const ChatInputField({super.key, this.onSend, this.isLoading = false});
 
   @override
   State<ChatInputField> createState() => _ChatInputFieldState();
@@ -60,7 +62,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
           ),
           const SizedBox(width: 10),
 
-          // 전송 버튼
+          // 전송 or 로딩 버튼
           Container(
             width: 48,
             height: 48,
@@ -72,10 +74,18 @@ class _ChatInputFieldState extends State<ChatInputField> {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: IconButton(
-              icon: const Icon(Icons.send, color: Colors.white, size: 20),
-              onPressed: _handleSend,
-            ),
+            child: widget.isLoading
+                ? const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.send, color: Colors.white, size: 20),
+                    onPressed: _handleSend,
+                  ),
           ),
         ],
       ),
