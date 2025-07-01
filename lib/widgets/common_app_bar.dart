@@ -44,12 +44,12 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               context: context,
               barrierDismissible: true,
               builder: (context) => CalendarDialog(
-                onDateSelected: (date) {
+                onDateSelected: (dateId) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       // TODO: 일기 상세 페이지 구현할 것(diary_screen.dart)
-                      builder: (context) => DiaryScreen(date: date),
+                      builder: (context) => DiaryScreen(dateId: dateId),
                     ),
                   );
                 },

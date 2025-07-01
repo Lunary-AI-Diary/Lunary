@@ -8,7 +8,8 @@ import 'dart:convert';
 class DiaryService {
   /// OpenAI API를 통해 오늘의 대화를 바탕으로 일기 생성
   static Future<String> generateDiaryFromChat(String dateId) async {
-    ChatService chatService = ChatService();
+    // TODO: chat_screen.dart 에서는 _chatService라고 써도 경고가 안 생기는데 왜 여기선 _로 만들면 경고가 생기는 지 확인하기
+    final ChatService chatService = ChatService();
 
     // 1. 대화 기록 가져오기
     final transcript = await chatService.getChatTranscript(dateId);
