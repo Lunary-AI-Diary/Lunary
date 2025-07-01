@@ -46,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
   // 현재 날짜 정보 반환 - 데이터 베이스에 채팅 기록을 날짜별로 저장하기 위함
   static String _getTodayDateId() {
     final now = DateTime.now();
-    return "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    return DateFormat('yyyy-MM-dd').format(now);
   }
 
   @override
