@@ -112,4 +112,30 @@ class ChatService {
           }).toList(),
         );
   }
+
+  // 해당 날짜의 모든 채팅 메시지를 '사용자: ~, AI: ~' 형식으로 문자열로 반환
+  Future<String> getChatTranscript(String dateId) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    // Firestore에서 해당 날짜(dateId)의 메시지 가져오기
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('chats')
+        .doc(dateId)
+        .collection('messages')
+        .orderBy('timestamp')
+        .get();
+
+    // 메시지를 순서대로 문자열로 변환
+    final transcript = snapshot.docs
+        .map((doc) {
+          final role = doc['role'] == 'user' ? '사용자' : 'AI';
+          final content = doc['content'] ?? '';
+          return "$role: $content";
+        })
+        .join('\n');
+
+    return transcript;
+  }
 }
