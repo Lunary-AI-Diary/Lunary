@@ -40,8 +40,8 @@ class ChatService {
         'Authorization': 'Bearer $apiKey',
       },
       body: json.encode({
-        'model': 'gpt-3.5-turbo',
-        'messages': messages, // 추후 모델 변경 가능
+        'model': 'gpt-3.5-turbo', // 추후 모델 변경 가능
+        'messages': messages,
       }),
     );
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lunary/widgets/calendar_diaglog.dart';
+import 'package:lunary/screens/diary/diary_screen.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppBar({super.key});
@@ -35,11 +37,26 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
         // 달력 버튼
         IconButton(
           icon: Icon(Icons.calendar_month),
+
+          // 달력 버튼 클릭 시, 달력 다이얼로그(CalendarDialog) 호출
           onPressed: () {
-            // TODO: 검색 아이콘 버튼 클릭 시 동작 정의
+            showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (context) => CalendarDialog(
+                onDateSelected: (date) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      // TODO: 일기 상세 페이지 구현할 것(diary_screen.dart)
+                      builder: (context) => DiaryScreen(date: date),
+                    ),
+                  );
+                },
+              ),
+            );
           },
         ),
-
         // 설정 버튼
         IconButton(
           icon: Icon(Icons.settings),
