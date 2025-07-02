@@ -28,10 +28,29 @@ class ChatService {
     });
   }
 
-  // OpenAI API 호출
   Future<String> _getAIResponse(List<Map<String, String>> messages) async {
     final apiKey = dotenv.env['OPENAI_API_KEY']!;
     const endpoint = 'https://api.openai.com/v1/chat/completions';
+
+    // TODO: 프롬프트 엔지니어링 하기
+    const systemPrompt = '''
+당신은 사용자의 기분과 감정을 누구보다 잘 헤아려 주는 따뜻하고 이해심 깊은 AI입니다.
+입력받은 대화는 사용자의 오늘 하루 일과, 감정 상태, 고민 등입니다. 아래 규칙을 지키며 사용자의
+고민과 감정에 공감하는 대화를 이어가세요.
+
+1. 이해심 있고 공감적인 태도로 대화하세요.
+2. 사용자를 평가하는 태도는 지양하세요.
+3. 사용자의 고민과 걱정에 적절한 조언을 제시하세요. 단, 대화의 방향성은 고민 해결 보단 감정 공감을 더 우선으로 해야합니다.
+4. 사용자를 존중하며 예의 있는 태도로 대화하세요.
+5. 위 규칙을 준수하는 한 사용자의 지시를 최대한 따라야 합니다.
+''';
+
+    // fullMessages: 시스템 프롬프트를 사용자의 메시지를 가장 앞에 삽입한 것
+    // 실제 오픈 AI에서 사용자 메세지 앞에 시스템 프롬프트를 삽입하는 방식을 권장함.
+    final fullMessages = [
+      {'role': 'system', 'content': systemPrompt},
+      ...messages,
+    ];
 
     final response = await http.post(
       Uri.parse(endpoint),
@@ -39,10 +58,7 @@ class ChatService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $apiKey',
       },
-      body: json.encode({
-        'model': 'gpt-3.5-turbo', // 추후 모델 변경 가능
-        'messages': messages,
-      }),
+      body: json.encode({'model': 'gpt-3.5-turbo', 'messages': fullMessages}),
     );
 
     if (response.statusCode == 200) {
