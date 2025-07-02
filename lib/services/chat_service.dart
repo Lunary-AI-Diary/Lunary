@@ -45,11 +45,11 @@ class ChatService {
 5. 위 규칙을 준수하는 한 사용자의 지시를 최대한 따라야 합니다.
 ''';
 
-    // fullMessages: 시스템 프롬프트를 사용자의 메시지를 가장 앞에 삽입한 것
+    // fullMessages: 시스템 프롬프트를 메시지 가장 앞에 삽입한 것
     // 실제 오픈 AI에서 사용자 메세지 앞에 시스템 프롬프트를 삽입하는 방식을 권장함.
     final fullMessages = [
-      {'role': 'system', 'content': systemPrompt},
-      ...messages,
+      {'role': 'system', 'content': systemPrompt}, // 시스템 프롬프트
+      ...messages, // AI와 사용자의 대화 기록
     ];
 
     final response = await http.post(
@@ -58,7 +58,10 @@ class ChatService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $apiKey',
       },
-      body: json.encode({'model': 'gpt-3.5-turbo', 'messages': fullMessages}),
+      body: json.encode({
+        'model': 'gpt-3.5-turbo', // 추후 모델 변경 가능
+        'messages': fullMessages,
+      }),
     );
 
     if (response.statusCode == 200) {
@@ -79,6 +82,7 @@ class ChatService {
     await _addMessage(userMessage, 'user', dateId);
 
     // 2. 현재까지의 대화 불러오기
+    // 현재까지의 AI와 사용자의 대화 내용을 불러온 후 사용자가 새로 입력한 메세지와 함께 프롬프트로 보내야 함. 실제로 오픈 AI에서 권장하는 방식임.
     final uid = _auth.currentUser!.uid;
     final snapshot = await _firestore
         .collection('users')
@@ -99,6 +103,9 @@ class ChatService {
 
     // 3. OpenAI API에 메시지 전송
     final aiReply = await _getAIResponse(messages);
+
+    // 테스트
+    // print(messages);
 
     // 4. AI 응답 메시지 저장
     await _addMessage(aiReply, 'assistant', dateId);

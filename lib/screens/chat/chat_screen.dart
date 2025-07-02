@@ -43,10 +43,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final String dateId = _getTodayDateId();
 
-  // 현재 날짜 정보 반환 - 데이터 베이스에 채팅 기록을 날짜별로 저장하기 위함
+  // TODO: 현재는 오늘 날짜 대화 기록만 화면에 불러올 수 있음. 다른 날짜의 대화도 불러와 이어서 대화를 할 수 있도록 하는 기능 구현하기
+  // 오늘 날짜 정보 반환 - 데이터 베이스에 채팅 기록을 날짜별로 저장하기 위함
   static String _getTodayDateId() {
-    final now = DateTime.now();
-    return DateFormat('yyyy-MM-dd').format(now);
+    final now = DateTime.now(); // 오늘 날짜 반환
+    return DateFormat('yyyy-MM-dd').format(now); // 예: 2025-07-02 형식으로 포매팅
   }
 
   @override
@@ -61,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
               // StreamBuilder: 비동기 데이터(스트림)가 변경될 때 마다 UI 자동 갱신
               // 여기서 사용하는 스트림은 List<ChatMessage> 타입 객체
               child: StreamBuilder<List<ChatMessage>>(
-                // dateId(특정 날짜)에 해당하는 스트림 데이터 반환
+                // dateId(오늘 날짜)에 해당하는 스트림 데이터 반환
                 // 이곳에 새로운 채팅 데이터가 올 때 마다 UI 업데이트
                 stream: _chatService.getMessages(dateId),
                 builder: (context, snapshot) {
@@ -190,14 +191,4 @@ class ChatBubble extends StatelessWidget {
       ],
     );
   }
-
-  // 시간 포맷을 위해 intl 패키지에 DateFormat 클래스를 대신 사용하기로 함.
-  // 혹시 몰라서 남겨 둠
-  //
-  // String _formatTime(DateTime time) {
-  //   final hour = time.hour > 12 ? time.hour - 12 : time.hour;
-  //   final minute = time.minute.toString().padLeft(2, '0');
-  //   final period = time.hour >= 12 ? '오후' : '오전';
-  //   return '$period $hour:$minute';
-  // }
 }
