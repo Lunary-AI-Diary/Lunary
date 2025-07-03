@@ -4,7 +4,6 @@ import 'package:lunary/widgets/chat_input_field.dart';
 import 'package:lunary/services/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 
 // 채팅 메시지 모델 클래스
 class ChatMessage {
@@ -29,7 +28,10 @@ class ChatMessage {
 
 // 채팅 화면
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  // HomeScreen에서 ChatInputField에 받아 전송된 메세지를 initialMessage라 칭함
+  final String? initialMessage;
+
+  const ChatScreen({super.key, this.initialMessage});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -51,9 +53,39 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // initialMessage가 있으면 자동 전송 후 AI 응답 반환
+    if (widget.initialMessage != null &&
+        widget.initialMessage!.trim().isNotEmpty) {
+      Future.microtask(() async {
+        setState(() {
+          _isLoading = true;
+          _showTypingIndicator = true;
+        });
+        try {
+          await _chatService.sendUserMessageAndGetAIResponse(
+            widget.initialMessage!,
+            dateId,
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("오류 발생: $e")));
+        } finally {
+          setState(() {
+            _isLoading = false;
+            _showTypingIndicator = false;
+          });
+        }
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(),
+      appBar: const CommonAppBar(titleText: 'AI 채팅'),
       body: SafeArea(
         child: Column(
           children: [
@@ -111,6 +143,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   _showTypingIndicator = true;
                 });
 
+                // 입력한 메세지 전송 및 AI 응답 반환
                 try {
                   await _chatService.sendUserMessageAndGetAIResponse(
                     text,

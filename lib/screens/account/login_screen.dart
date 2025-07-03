@@ -4,7 +4,7 @@ import 'package:lunary/screens/account/sign_up_screen.dart';
 import 'package:lunary/screens/home/home_screen.dart';
 
 // 채팅 테스트
-import 'package:lunary/screens/chat/chat_screen.dart';
+// import 'package:lunary/screens/chat/chat_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              const ChatScreen() /* 채팅 테스트를 위해 주석 처리. 원래는 왼쪽 코드가 있어야 함 const HomeScreen(), */,
+              const HomeScreen() /* 채팅 테스트를 위해 주석 처리. 원래는 왼쪽 코드가 있어야 함 const HomeScreen(), */,
         ),
       );
     } catch (e) {

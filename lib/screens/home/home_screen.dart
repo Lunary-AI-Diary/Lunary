@@ -3,6 +3,7 @@ import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/home/introduce.dart';
 import 'package:lunary/screens/home/prompt_example.dart';
 import 'package:lunary/widgets/chat_input_field.dart';
+import 'package:lunary/screens/chat/chat_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // 앱바
-      appBar: const CommonAppBar(),
+      appBar: const CommonAppBar(titleText: 'Lunary'),
 
       // 홈 화면 디자인
       body: Container(
@@ -33,7 +34,22 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SafeArea(bottom: true, child: ChatInputField()),
+            SafeArea(
+              bottom: true,
+              child: ChatInputField(
+                onSend: (text) {
+                  // 입력값이 비어있지 않으면 ChatScreen으로 이동하며 메시지 전달
+                  if (text.trim().isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChatScreen(initialMessage: text),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
