@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/widgets/calendar_diaglog.dart';
 import 'package:lunary/screens/diary/diary_screen.dart';
+import 'package:lunary/screens/account/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleText; // 앱바 타이틀 텍스트
@@ -42,7 +44,6 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      // TODO: 일기 상세 페이지 구현할 것(diary_screen.dart)
                       builder: (context) => DiaryScreen(dateId: dateId),
                     ),
                   );
@@ -54,7 +55,63 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            // TODO: 설정 아이콘 버튼 클릭 시 동작 정의
+            // 설정 버튼 클릭시 설정 기능 모달 창 표시
+            showModalBottomSheet(
+              context: context,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              ),
+              builder: (context) {
+                return SafeArea(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // 프로필 설정
+                      ListTile(
+                        leading: const Icon(Icons.person),
+                        title: const Text('프로필'),
+                        onTap: () {
+                          // TODO: 프로필 화면으로 이동
+                        },
+                      ),
+
+                      // 테마 변경
+                      ListTile(
+                        leading: const Icon(Icons.color_lens),
+                        title: const Text('테마'),
+                        onTap: () {
+                          // TODO: 테마 변경 화면으로 이동
+                        },
+                      ),
+
+                      // 로그아웃
+                      ListTile(
+                        leading: const Icon(Icons.logout),
+                        title: const Text('로그아웃'),
+                        onTap: () async {
+                          // Firebase 로그아웃
+                          await FirebaseAuth.instance.signOut();
+
+                          // 네비게이션 스택에서 첫 화면 제외 나머지 화면 제거(pop)
+                          // 남은 첫 화면을 로그인 화면이로 이동
+                          if (context.mounted) {
+                            Navigator.of(
+                              context,
+                            ).popUntil((route) => route.isFirst); // pop
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const LoginScreen(), // 로그인 스크린 이동(pushReplacement: 이전화면으로 되돌아 갈 수 없음)
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
           },
         ),
       ],
