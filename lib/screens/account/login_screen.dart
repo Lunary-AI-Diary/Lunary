@@ -92,29 +92,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
                 const SizedBox(height: 32),
-                // 이메일 입력창
-                TextField(
-                  controller: _emailController, // 컨트롤러 연결
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email_outlined),
-                    hintText: '이메일',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // 비밀번호 입력창
-                TextField(
-                  controller: _passwordController, // 컨트롤러 연결
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: const Icon(Icons.remove_red_eye_outlined),
-                    hintText: '비밀번호',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+
+                // 로그인 폼
+                Form(
+                  child: Column(
+                    children: [
+                      // 이메일 입력창
+                      TextField(
+                        controller: _emailController, // 컨트롤러 연결
+                        keyboardType: TextInputType.emailAddress, // 이메일 키보드
+                        autofillHints: const [AutofillHints.email], // 자동완성 힌트
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          hintText: '이메일',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // 비밀번호 입력창
+                      TextField(
+                        controller: _passwordController, // 컨트롤러 연결
+                        obscureText: true, // 입력값 가리기
+                        keyboardType: TextInputType.visiblePassword, // 비밀번호 키보드
+                        autofillHints: const [
+                          AutofillHints.password, // 자동완성 힌트
+                        ],
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                          hintText: '비밀번호',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
