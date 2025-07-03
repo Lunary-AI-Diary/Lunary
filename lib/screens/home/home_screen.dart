@@ -6,7 +6,11 @@ import 'package:lunary/widgets/chat_input_field.dart';
 import 'package:lunary/screens/chat/chat_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  // 예시 프롬프트 버튼을 눌렀을 때 텍스트를 전달하는 컨트롤러
+  // ChatInputField와 PromptExample에 전달된다.
+  final TextEditingController _chatController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +30,10 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Introduce(),
-                    SizedBox(height: 50),
-                    PromptExample(),
+                  children: [
+                    const Introduce(),
+                    const SizedBox(height: 30),
+                    PromptExample(controller: _chatController), // controller 전달
                   ],
                 ),
               ),
@@ -37,6 +41,7 @@ class HomeScreen extends StatelessWidget {
             SafeArea(
               bottom: true,
               child: ChatInputField(
+                controller: _chatController, // controller 전달
                 onSend: (text) {
                   // 입력값이 비어있지 않으면 ChatScreen으로 이동하며 메시지 전달
                   if (text.trim().isNotEmpty) {

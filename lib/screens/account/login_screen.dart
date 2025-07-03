@@ -32,8 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              const HomeScreen() /* 채팅 테스트를 위해 주석 처리. 원래는 왼쪽 코드가 있어야 함 const HomeScreen(), */,
+          builder: (context) => HomeScreen(), // 로그인 성공시 홈 스크린으로 이동
         ),
       );
     } catch (e) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/services/diary_service.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
-import 'package:lunary/widgets/common_app_bar.dart';
 
 // 일기 생성 기능 테스트용 임시 UI
 // TODO: UI 디자인 개선하기

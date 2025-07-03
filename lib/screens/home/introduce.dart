@@ -24,6 +24,11 @@ class Introduce extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, color: Colors.black),
         ),
+        SizedBox(height: 20),
+        Text(
+          '아래 예시로 대화를 시작해 보세요!',
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
       ],
     );
   }

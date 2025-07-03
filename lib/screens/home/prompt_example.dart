@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PromptExample extends StatelessWidget {
-  const PromptExample({super.key});
+  final TextEditingController controller;
+  const PromptExample({super.key, required this.controller});
 
   // 테두리에 그라디언트 색상을 적용하기 위한 커스텀 버튼
   Widget _gradientOutlineButton(String text) {
@@ -27,7 +28,11 @@ class PromptExample extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(6),
             onTap: () {
-              // TODO: 예시 프롬프트 버튼 로직
+              // 예시 프롬프트 버튼 텍스트 입력 컨트롤러
+              controller.text = text;
+              controller.selection = TextSelection.fromPosition(
+                TextPosition(offset: controller.text.length),
+              );
             },
             child: Align(
               alignment: Alignment.centerLeft,
@@ -50,13 +55,13 @@ class PromptExample extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _gradientOutlineButton('예시 프롬프트 1'),
+        _gradientOutlineButton('오늘 가장 기억에 남는 순간은 무엇이었나요?'),
         SizedBox(height: 12),
-        _gradientOutlineButton('예시 프롬프트 2'),
+        _gradientOutlineButton('오늘 힘들었던 일이나 고민이 있었나요?'),
         SizedBox(height: 12),
-        _gradientOutlineButton('예시 프롬프트 3'),
+        _gradientOutlineButton('오늘 나를 웃게 만든 일은 무엇이었나요?'),
         SizedBox(height: 12),
-        _gradientOutlineButton('예시 프롬프트 4'),
+        _gradientOutlineButton('내일을 위해 바라는 점이나 다짐이 있나요?'),
       ],
     );
   }

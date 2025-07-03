@@ -7,16 +7,27 @@ class ChatInputField extends StatefulWidget {
 
   final bool isLoading;
 
-  const ChatInputField({super.key, this.onSend, this.isLoading = false});
+  final TextEditingController? controller; // 예시 프롬프트 버튼 텍스트 입력 컨트롤러
+
+  const ChatInputField({
+    super.key,
+    this.onSend,
+    this.isLoading = false,
+    this.controller,
+  });
 
   @override
   State<ChatInputField> createState() => _ChatInputFieldState();
 }
 
 class _ChatInputFieldState extends State<ChatInputField> {
-  // 사용자가 입력한 텍스트를 관리하는 컨트롤러
-  // TextField의 현재 입력값에 접근하거나 초기화할 때 사용
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller ?? TextEditingController();
+  }
 
   // 입력된 텍스트를 전송 처리하는 함수
   // - 입력값이 비어 있지 않으면 외부 콜백(onSend)을 호출(onSend 함수는 ChatInputField 인스턴스를 만들때 생성자로 받는 매개변수임)
@@ -49,10 +60,10 @@ class _ChatInputFieldState extends State<ChatInputField> {
               ),
               child: Center(
                 child: TextField(
-                  controller: _controller,
+                  controller: _controller, // 예시 프롬프트 버튼 텍스트 입력 컨트롤러
                   decoration: const InputDecoration(
                     border: InputBorder.none, // TextField의 기본 테두리 없애기
-                    hintText: "Share your thoughts and feelings...",
+                    hintText: "대화를 시작해볼까요?",
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   onSubmitted: (_) => _handleSend(), // 키보드 제출 시 전송
