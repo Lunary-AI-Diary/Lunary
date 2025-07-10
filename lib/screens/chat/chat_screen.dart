@@ -31,7 +31,9 @@ class ChatScreen extends StatefulWidget {
   // HomeScreen에서 ChatInputField에 받아 전송된 메세지를 initialMessage라 칭함
   final String? initialMessage;
 
-  const ChatScreen({super.key, this.initialMessage});
+  final String dateId;
+
+  const ChatScreen({super.key, this.initialMessage, required this.dateId});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -42,15 +44,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   bool _isLoading = false; // 메세지 전송 버튼에 표시되는 로딩
   bool _showTypingIndicator = false; // AI 응답 생성 중에 말풍선에 표시되는 로딩
-
-  final String dateId = _getTodayDateId();
-
-  // TODO: 현재는 오늘 날짜 대화 기록만 화면에 불러올 수 있음. 다른 날짜의 대화도 불러와 이어서 대화를 할 수 있도록 하는 기능 구현하기
-  // 오늘 날짜 정보 반환 - 데이터 베이스에 채팅 기록을 날짜별로 저장하기 위함
-  static String _getTodayDateId() {
-    final now = DateTime.now(); // 오늘 날짜 반환
-    return DateFormat('yyyy-MM-dd').format(now); // 예: 2025-07-02 형식으로 포매팅
-  }
 
   @override
   void initState() {
@@ -66,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
         try {
           await _chatService.sendUserMessageAndGetAIResponse(
             widget.initialMessage!,
-            dateId,
+            widget.dateId,
           );
         } catch (e) {
           ScaffoldMessenger.of(
@@ -96,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: StreamBuilder<List<ChatMessage>>(
                 // dateId(오늘 날짜)에 해당하는 스트림 데이터 반환
                 // 이곳에 새로운 채팅 데이터가 올 때 마다 UI 업데이트
-                stream: _chatService.getMessages(dateId),
+                stream: _chatService.getMessages(widget.dateId),
                 builder: (context, snapshot) {
                   // snapshot: 스트림의 현재 상태와 데이터를 담은 매개변수
                   // ConnectionState.waiting: 데이터가 아직 도착하지 않은 상태
@@ -147,7 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 try {
                   await _chatService.sendUserMessageAndGetAIResponse(
                     text,
-                    dateId,
+                    widget.dateId,
                   );
                 } catch (e) {
                   ScaffoldMessenger.of(

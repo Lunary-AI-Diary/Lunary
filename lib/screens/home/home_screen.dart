@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/home/introduce.dart';
 import 'package:lunary/screens/home/prompt_example.dart';
@@ -11,6 +12,14 @@ class HomeScreen extends StatelessWidget {
   // 예시 프롬프트 버튼을 눌렀을 때 텍스트를 전달하는 컨트롤러
   // ChatInputField와 PromptExample에 전달된다.
   final TextEditingController _chatController = TextEditingController();
+
+  final String today = _getTodayDateId();
+
+  // 오늘 날짜 정보 반환 홈 화면에서 보낸 채팅은 무조건 오늘 날짜로 시작되도록 함.
+  static String _getTodayDateId() {
+    final now = DateTime.now(); // 오늘 날짜 반환
+    return DateFormat('yyyy-MM-dd').format(now); // 예: 2025-07-02 형식으로 포매팅
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +57,8 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => ChatScreen(initialMessage: text),
+                        builder: (_) =>
+                            ChatScreen(initialMessage: text, dateId: today),
                       ),
                     );
                   }
