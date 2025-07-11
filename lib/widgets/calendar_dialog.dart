@@ -4,9 +4,9 @@ import 'package:lunary/screens/chat/chat_screen.dart';
 import 'package:lunary/screens/diary/diary_screen.dart';
 
 class CalendarDialog extends StatefulWidget {
-  final Function(String) onDateSelected;
+  final Function(String)? onDateSelected;
 
-  const CalendarDialog({super.key, required this.onDateSelected});
+  const CalendarDialog({super.key, this.onDateSelected});
 
   @override
   State<CalendarDialog> createState() => _CalendarDialogState();
@@ -15,6 +15,7 @@ class CalendarDialog extends StatefulWidget {
 // 달력 위젯
 class _CalendarDialogState extends State<CalendarDialog> {
   late DateTime selectedMonth;
+  String? _selectedDateId; // 선택된 날짜 상태 추가
 
   @override
   void initState() {
@@ -25,12 +26,14 @@ class _CalendarDialogState extends State<CalendarDialog> {
   void _goToPreviousMonth() {
     setState(() {
       selectedMonth = DateTime(selectedMonth.year, selectedMonth.month - 1);
+      _selectedDateId = null; // 월이 바뀌면 선택 해제
     });
   }
 
   void _goToNextMonth() {
     setState(() {
       selectedMonth = DateTime(selectedMonth.year, selectedMonth.month + 1);
+      _selectedDateId = null; // 월이 바뀌면 선택 해제
     });
   }
 
@@ -97,7 +100,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
               ),
             ),
 
-            // 요일 표시 (한글)
+            // 요일 표시
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Row(
@@ -142,22 +145,34 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   );
                   final dateId = DateFormat('yyyy-MM-dd').format(date);
 
+                  final isSelected = _selectedDateId == dateId;
+
                   return GestureDetector(
                     onTap: () {
-                      widget.onDateSelected(dateId); // 선택된 날짜 전달
+                      setState(() {
+                        _selectedDateId = dateId;
+                      });
+                      widget.onDateSelected?.call(dateId);
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isSelected
+                            ? const Color(0xFFFFE1B5)
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(8),
+                        border: isSelected
+                            ? Border.all(color: Colors.pink, width: 2)
+                            : null,
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         '$day',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xFF444444),
+                          color: isSelected
+                              ? Colors.pink
+                              : const Color(0xFF444444),
                         ),
                       ),
                     ),
@@ -165,107 +180,60 @@ class _CalendarDialogState extends State<CalendarDialog> {
                 },
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-// 달력 아래에 표시되는 위젯
-class CalendarSelectDialog extends StatefulWidget {
-  const CalendarSelectDialog({super.key});
-
-  @override
-  State<CalendarSelectDialog> createState() => _CalendarSelectDialogState();
-}
-
-class _CalendarSelectDialogState extends State<CalendarSelectDialog> {
-  String? _selectedDateId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(24),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CalendarDialog(
-              onDateSelected: (dateId) {
-                setState(() {
-                  _selectedDateId = dateId;
-                });
-              },
-            ),
-            if (_selectedDateId != null)
-              Container(
-                margin: const EdgeInsets.only(top: 16),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    // 선택된 날짜 표시
-                    Text(
-                      '선택된 날짜: $_selectedDateId',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // 대화 기록 버튼
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFF8CBA),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    ChatScreen(dateId: _selectedDateId!),
-                              ),
-                            );
-                          },
-                          child: const Text('대화 기록'),
-                        ),
-                        // 일기 보기 버튼
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFDAC9C),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    DiaryScreen(dateId: _selectedDateId!),
-                              ),
-                            );
-                          },
-                          child: const Text('일기 보기'),
-                        ),
-                      ],
-                    ),
-                  ],
+            // 날짜를 선택했을 때만 버튼 표시
+            if (_selectedDateId != null) ...[
+              const SizedBox(height: 16),
+              Text(
+                '선택된 날짜: $_selectedDateId',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF8CBA),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ChatScreen(dateId: _selectedDateId!),
+                        ),
+                      );
+                    },
+                    child: const Text('대화 기록'),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFDAC9C),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DiaryScreen(dateId: _selectedDateId!),
+                        ),
+                      );
+                    },
+                    child: const Text('일기 보기'),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
