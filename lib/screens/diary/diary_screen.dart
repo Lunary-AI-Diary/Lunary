@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/services/diary_service.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
+import 'package:lunary/screens/diary/ai_diary_tab.dart';
+import 'package:lunary/screens/diary/ai_review_tab.dart';
+import 'package:lunary/screens/diary/report_tab.dart';
 
 /// 일기를 보여주는 화면
 /// - 일기가 없으면 자동 생성
@@ -14,16 +17,28 @@ class DiaryScreen extends StatefulWidget {
   State<DiaryScreen> createState() => _DiaryScreenState();
 }
 
-class _DiaryScreenState extends State<DiaryScreen> {
+class _DiaryScreenState extends State<DiaryScreen>
+    with SingleTickerProviderStateMixin {
   final DiaryService _diaryService = DiaryService(); // 일기 관련 서비스 객체
   String? _diaryContent; // 현재 화면에 보여질 일기 내용
   bool _isLoading = true; // 로딩 상태 여부
 
-  /// 화면 초기화 시 일기 불러오기 또는 생성
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (mounted) setState(() {}); // 탭이 바뀔 때마다 리빌드(탭 마다 플로팅 액션 버튼이 다르기 때문)
+    });
     _loadDiary();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   /// Firestore에서 일기를 불러오거나 없으면 생성하는 메서드
@@ -97,47 +112,72 @@ class _DiaryScreenState extends State<DiaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 앱 바
-      appBar: const CommonAppBar(titleText: '일기 보기'),
-
-      // 본문 영역
-      body: Center(
-        child: _isLoading
-            ? const CircularProgressIndicator()
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 선택한 날짜 표시
-                    Text(
-                      "선택된 날짜: ${widget.dateId}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(
-                          bottom: 120,
-                        ), // 플로팅 버튼 높이만큼 여백을 줘, 플로팅 버튼에 가려줘도 스크롤 내릴 수 있도록 함
-                        child: Text(
-                          _diaryContent ?? "일기가 없습니다.",
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ],
+      appBar: CommonAppBar(titleText: '${widget.dateId} 일기'),
+      body: Column(
+        children: [
+          // 탭바: "AI 일기", "AI 리뷰", "리포트" 세개 탭
+          Container(
+            color: Colors.white,
+            child: TabBar(
+              controller: _tabController,
+              labelColor: Colors.pink,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.pink,
+              tabs: const [
+                Tab(text: "AI 일기"),
+                Tab(text: "AI 리뷰"),
+                Tab(text: "리포트"),
+              ],
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // AI 일기
+                AiDiaryTab(
+                  isLoading: _isLoading,
+                  diaryContent: _diaryContent,
+                  dateId: widget.dateId,
                 ),
-              ),
+                // AI 리뷰
+                const AiReviewTab(),
+                // 리포트
+                const ReportTab(),
+              ],
+            ),
+          ),
+        ],
       ),
 
-      // 오른쪽 하단에 일기 재생성용 FloatingActionButton 배치
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _isLoading
-            ? null // 로딩 중일 땐 버튼 비활성화
-            : _regenerateDiary, // 눌렀을 때 일기 재생성
-        icon: const Icon(Icons.refresh),
-        label: const Text("일기 재생성"),
+      // 재생성 플로팅 액션 버튼
+      // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
+      // 0: "일기 재생성" 버튼
+      // 1: "리뷰 재생성" 버튼
+      // 2: 버튼 없음(리포트 탭)
+      floatingActionButton: Builder(
+        builder: (context) {
+          if (_tabController.index == 0) {
+            // AI 일기 탭
+            return FloatingActionButton.extended(
+              onPressed: _isLoading ? null : _regenerateDiary,
+              icon: const Icon(Icons.refresh),
+              label: const Text("일기 재생성"),
+            );
+          } else if (_tabController.index == 1) {
+            // AI 리뷰 탭
+            return FloatingActionButton.extended(
+              onPressed: () {
+                // TODO: 리뷰 재생성 기능 구현할 것
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text("리뷰 재생성"),
+            );
+          } else {
+            // 리포트 탭에는 플로팅 액션 버튼 없음(아무것도 없는 위젯 반환)
+            return const SizedBox.shrink();
+          }
+        },
       ),
     );
   }
