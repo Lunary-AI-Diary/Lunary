@@ -157,6 +157,11 @@ class _DiaryScreenState extends State<DiaryScreen>
       // 플로팅 액션 버튼 로직
       // TODO: 현재는 일기 재생성만 구현되어 있음. 리뷰 재생성 기능 구현할 것.
       // TODO: 일기 로딩, 리뷰 로딩 분리 필요. onRegenerateDiary와 같이 onRegenerateReview 추가 필요.
+
+      // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
+      // 0: "일기 재생성" 버튼
+      // 1: "리뷰 재생성" 버튼
+      // 2: 버튼 없음(리포트 탭)
       floatingActionButton: DiaryFloatingActionButton(
         tabIndex: _tabController.index,
         isLoading: _isLoading,
