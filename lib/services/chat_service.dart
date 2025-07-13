@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
-import 'package:lunary/screens/chat/chat_screen.dart';
+import 'package:lunary/screens/chat/chat_message.dart';
 
 class ChatService {
   final _auth = FirebaseAuth.instance;
