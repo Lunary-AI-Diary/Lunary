@@ -4,10 +4,9 @@ import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/diary/ai_diary_tab.dart';
 import 'package:lunary/screens/diary/ai_review_tab.dart';
 import 'package:lunary/screens/diary/report_tab.dart';
+import 'package:lunary/screens/diary/diary_fab.dart';
 
-/// 일기를 보여주는 화면
-/// - 일기가 없으면 자동 생성
-/// - FloatingActionButton을 눌러 일기 재생성 가능
+// 일기를 보여주는 화면
 class DiaryScreen extends StatefulWidget {
   final String dateId; // yyyy-MM-dd 형식의 날짜 ID
 
@@ -41,7 +40,12 @@ class _DiaryScreenState extends State<DiaryScreen>
     super.dispose();
   }
 
-  /// Firestore에서 일기를 불러오거나 없으면 생성하는 메서드
+  // DiaryScreen 관련 메서드
+  // TODO: 현재는 일기 불러오기, 생성, 재생성, 저장 기능만 있음.
+  // TODO: 리뷰 불러오기, 생성, 재생성, 저장 메서드 만들기
+  // TODO: 리포트 불러오기, 생성, 저장 메서드 만들기
+
+  // Firestore에서 일기를 불러오거나 없으면 생성하는 메서드
   Future<void> _loadDiary() async {
     setState(() => _isLoading = true);
 
@@ -73,7 +77,7 @@ class _DiaryScreenState extends State<DiaryScreen>
     }
   }
 
-  /// 일기를 재생성하여 Firestore에 덮어쓰는 메서드
+  // 일기를 재생성하여 Firestore에 덮어쓰는 메서드
   Future<void> _regenerateDiary() async {
     setState(() => _isLoading = true);
 
@@ -150,34 +154,13 @@ class _DiaryScreenState extends State<DiaryScreen>
         ],
       ),
 
-      // 재생성 플로팅 액션 버튼
-      // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
-      // 0: "일기 재생성" 버튼
-      // 1: "리뷰 재생성" 버튼
-      // 2: 버튼 없음(리포트 탭)
-      floatingActionButton: Builder(
-        builder: (context) {
-          if (_tabController.index == 0) {
-            // AI 일기 탭
-            return FloatingActionButton.extended(
-              onPressed: _isLoading ? null : _regenerateDiary,
-              icon: const Icon(Icons.refresh),
-              label: const Text("일기 재생성"),
-            );
-          } else if (_tabController.index == 1) {
-            // AI 리뷰 탭
-            return FloatingActionButton.extended(
-              onPressed: () {
-                // TODO: 리뷰 재생성 기능 구현할 것
-              },
-              icon: const Icon(Icons.refresh),
-              label: const Text("리뷰 재생성"),
-            );
-          } else {
-            // 리포트 탭에는 플로팅 액션 버튼 없음(아무것도 없는 위젯 반환)
-            return const SizedBox.shrink();
-          }
-        },
+      // 플로팅 액션 버튼 로직
+      // TODO: 현재는 일기 재생성만 구현되어 있음. 리뷰 재생성 기능 구현할 것.
+      // TODO: 일기 로딩, 리뷰 로딩 분리 필요. onRegenerateDiary와 같이 onRegenerateReview 추가 필요.
+      floatingActionButton: DiaryFloatingActionButton(
+        tabIndex: _tabController.index,
+        isLoading: _isLoading,
+        onRegenerateDiary: _regenerateDiary,
       ),
     );
   }
