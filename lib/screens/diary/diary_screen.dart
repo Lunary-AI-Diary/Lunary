@@ -20,7 +20,9 @@ class _DiaryScreenState extends State<DiaryScreen>
     with SingleTickerProviderStateMixin {
   final DiaryService _diaryService = DiaryService(); // 일기 관련 서비스 객체
   String? _diaryContent; // 현재 화면에 보여질 일기 내용
-  bool _isLoading = true; // 로딩 상태 여부
+  bool _isDiaryLoading = true; // 일기 로딩 상태 여부
+  // bool _isReviewLoading = true;
+  // bool _isReportLoading = true;
 
   late TabController _tabController;
 
@@ -43,11 +45,11 @@ class _DiaryScreenState extends State<DiaryScreen>
   // DiaryScreen 관련 메서드
   // TODO: 현재는 일기 불러오기, 생성, 재생성, 저장 기능만 있음.
   // TODO: 리뷰 불러오기, 생성, 재생성, 저장 메서드 만들기
-  // TODO: 리포트 불러오기, 생성, 저장 메서드 만들기
+  // TODO: 리포트 불러오기, 생성, 재생성, 저장 메서드 만들기
 
   // Firestore에서 일기를 불러오거나 없으면 생성하는 메서드
   Future<void> _loadDiary() async {
-    setState(() => _isLoading = true);
+    setState(() => _isDiaryLoading = true);
 
     try {
       // Firestore에서 일기 데이터 가져오기
@@ -66,20 +68,20 @@ class _DiaryScreenState extends State<DiaryScreen>
       // 화면에 일기 반영
       setState(() {
         _diaryContent = existingDiary ?? "일기를 불러올 수 없습니다.";
-        _isLoading = false;
+        _isDiaryLoading = false;
       });
     } catch (e) {
       // 오류 발생 시 예외 메시지 표시
       setState(() {
         _diaryContent = "오류 발생: $e";
-        _isLoading = false;
+        _isDiaryLoading = false;
       });
     }
   }
 
   // 일기를 재생성하여 Firestore에 덮어쓰는 메서드
   Future<void> _regenerateDiary() async {
-    setState(() => _isLoading = true);
+    setState(() => _isDiaryLoading = true);
 
     try {
       // 새 일기 생성 및 저장
@@ -93,7 +95,7 @@ class _DiaryScreenState extends State<DiaryScreen>
       // UI에 반영
       setState(() {
         _diaryContent = updatedDiary ?? "일기를 불러올 수 없습니다.";
-        _isLoading = false;
+        _isDiaryLoading = false;
       });
 
       // 성공 메시지 표시
@@ -103,7 +105,7 @@ class _DiaryScreenState extends State<DiaryScreen>
     } catch (e) {
       // 오류 처리 및 메시지 표시
       setState(() {
-        _isLoading = false;
+        _isDiaryLoading = false;
         _diaryContent = "오류 발생: $e";
       });
 
@@ -140,7 +142,7 @@ class _DiaryScreenState extends State<DiaryScreen>
               children: [
                 // AI 일기
                 AiDiaryTab(
-                  isLoading: _isLoading,
+                  isLoading: _isDiaryLoading,
                   diaryContent: _diaryContent,
                   dateId: widget.dateId,
                 ),
@@ -155,17 +157,20 @@ class _DiaryScreenState extends State<DiaryScreen>
       ),
 
       // 플로팅 액션 버튼 로직
-      // TODO: 현재는 일기 재생성만 구현되어 있음. 리뷰 재생성 기능 구현할 것.
-      // TODO: 일기 로딩, 리뷰 로딩 분리 필요. onRegenerateDiary와 같이 onRegenerateReview 추가 필요.
+      // TODO: 현재는 일기 재생성만 구현되어 있음. 리뷰 재생성, 리포트 재생성 기능 구현할 것.
 
       // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
       // 0: "일기 재생성" 버튼
       // 1: "리뷰 재생성" 버튼
-      // 2: 버튼 없음(리포트 탭)
+      // 2: "리포트 재생성" 버튼
       floatingActionButton: DiaryFloatingActionButton(
         tabIndex: _tabController.index,
-        isLoading: _isLoading,
+        isDiaryLoading: _isDiaryLoading,
+        // isReviewLoading: _isReviewLoading,
+        // isReportLoading: _isReportLoading,
         onRegenerateDiary: _regenerateDiary,
+        // onRegenerateReview: _regenerateReview,
+        // onRegenerateReport: _regenerateReport,
       ),
     );
   }
