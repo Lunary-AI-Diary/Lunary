@@ -6,11 +6,12 @@ import 'package:lunary/screens/account/login_screen.dart';
 import 'package:lunary/screens/home/home_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   // 환경변수 불러오기
   await dotenv.load(fileName: '.env');
 
-  // Firebase 초기화
-  WidgetsFlutterBinding.ensureInitialized();
+  // Firebase 불러오기
   await Firebase.initializeApp();
 
   runApp(const LunaryApp());
