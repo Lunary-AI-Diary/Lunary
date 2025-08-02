@@ -62,7 +62,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   const Icon(Icons.menu_book, color: Colors.pink),
                   const SizedBox(width: 8),
                   const Text(
-                    '일기 보기',
+                    '기록',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   const Spacer(),
