@@ -4,6 +4,7 @@ import 'package:lunary/widgets/chat_input_field.dart';
 import 'package:lunary/services/chat_service.dart';
 import 'package:lunary/screens/chat/chat_message.dart';
 import 'package:lunary/screens/chat/chat_bubble.dart';
+import 'package:lunary/screens/diary/diary_screen.dart';
 
 // 채팅 화면
 class ChatScreen extends StatefulWidget {
@@ -107,7 +108,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   // 메세지를 스크롤 가능한 UI로 보여줌
                   return ListView.builder(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.fromLTRB(
+                      16,
+                      16,
+                      16,
+                      80,
+                    ), // 하단 패딩 80
                     itemCount: _showTypingIndicator
                         ? messages.length + 1
                         : messages.length,
@@ -159,6 +165,20 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 60), // ChatInputField 높이만큼 위로 올림
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => DiaryScreen(dateId: widget.dateId),
+              ),
+            );
+          },
+          icon: const Icon(Icons.book), // 일기장 느낌의 아이콘
+          label: const Text("일기 보기"),
         ),
       ),
     );
