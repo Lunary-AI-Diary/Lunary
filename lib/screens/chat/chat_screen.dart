@@ -61,6 +61,31 @@ class _ChatScreenState extends State<ChatScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            // 채팅 날짜 표시 (상단 중앙)
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 8),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    "${widget.dateId} 채팅",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             // 채팅 메시지 영역
             Expanded(
               // StreamBuilder: 비동기 데이터(스트림)가 변경될 때 마다 UI 자동 갱신
