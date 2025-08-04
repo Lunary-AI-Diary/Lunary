@@ -49,7 +49,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
         padding: const EdgeInsets.only(top: 8, bottom: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white.withOpacity(0.95),
+          color: const Color(0xFFFFF5EF), // Colors.white.withOpacity(0.95),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -210,9 +210,18 @@ class _CalendarDialogState extends State<CalendarDialog> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF8CBA),
+                      backgroundColor: const Color(
+                        0xFFE3F3FF,
+                      ), // 연한 하늘색 (대화 기록)
+                      foregroundColor: Colors.blue.shade600,
+                      elevation: 1,
+                      shadowColor: Colors.blue.shade100,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
                       ),
                     ),
                     onPressed: () {
@@ -228,9 +237,16 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFDAC9C),
+                      backgroundColor: const Color(0xFFFFE7F0), // 연한 핑크 (일기 보기)
+                      foregroundColor: Colors.pink.shade400,
+                      elevation: 1,
+                      shadowColor: Colors.pink.shade100,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
                       ),
                     ),
                     onPressed: () {
