@@ -148,23 +148,29 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   final isSelected = _selectedDateId == dateId;
                   final isToday =
                       dateId == DateFormat('yyyy-MM-dd').format(DateTime.now());
+                  final isFuture = date.isAfter(DateTime.now());
 
                   return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedDateId = dateId;
-                      });
-                      widget.onDateSelected?.call(dateId);
-                    },
+                    onTap: isFuture
+                        ? null // 미래 날짜는 선택 불가
+                        : () {
+                            setState(() {
+                              _selectedDateId = dateId;
+                            });
+                            widget.onDateSelected?.call(dateId);
+                          },
                     child: Container(
                       decoration: BoxDecoration(
                         color: isSelected
                             ? const Color(0xFFFFE1B5)
                             : isToday
                             ? const Color(0xFFD6ECFF) // 오늘 날짜는 연한 파란색
+                            : isFuture
+                            ? Colors
+                                  .grey
+                                  .shade200 // 미래 날짜는 연한 회색
                             : Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        // 테두리 없음
                       ),
                       alignment: Alignment.center,
                       child: Text(
@@ -176,6 +182,9 @@ class _CalendarDialogState extends State<CalendarDialog> {
                               ? Colors.pink
                               : isToday
                               ? const Color(0xFF3399FF) // 오늘 날짜는 파란색 글씨
+                              : isFuture
+                              ? Colors
+                                    .grey // 미래 날짜는 회색 글씨
                               : const Color(0xFF444444),
                         ),
                       ),
