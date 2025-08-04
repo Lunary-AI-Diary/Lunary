@@ -171,12 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
         stream: _chatService.getMessageCountStream(widget.dateId),
         builder: (context, snapshot) {
           final count = snapshot.data ?? 0;
-          // 일기 보기 플로팅 액션 버튼은 대화 기록이 10이상일 때만 보여짐
-          if (count >= 10) {
-            return ShowDiaryFab(dateId: widget.dateId);
-          } else {
-            return const SizedBox.shrink();
-          }
+          return ShowDiaryFab(dateId: widget.dateId, chatCount: count);
         },
       ),
     );
