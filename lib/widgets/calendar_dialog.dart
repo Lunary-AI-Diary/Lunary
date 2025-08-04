@@ -146,6 +146,8 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   final dateId = DateFormat('yyyy-MM-dd').format(date);
 
                   final isSelected = _selectedDateId == dateId;
+                  final isToday =
+                      dateId == DateFormat('yyyy-MM-dd').format(DateTime.now());
 
                   return GestureDetector(
                     onTap: () {
@@ -158,11 +160,11 @@ class _CalendarDialogState extends State<CalendarDialog> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? const Color(0xFFFFE1B5)
+                            : isToday
+                            ? const Color(0xFFD6ECFF) // 오늘 날짜는 연한 파란색
                             : Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        border: isSelected
-                            ? Border.all(color: Colors.pink, width: 2)
-                            : null,
+                        // 테두리 없음
                       ),
                       alignment: Alignment.center,
                       child: Text(
@@ -172,6 +174,8 @@ class _CalendarDialogState extends State<CalendarDialog> {
                           fontWeight: FontWeight.w500,
                           color: isSelected
                               ? Colors.pink
+                              : isToday
+                              ? const Color(0xFF3399FF) // 오늘 날짜는 파란색 글씨
                               : const Color(0xFF444444),
                         ),
                       ),
