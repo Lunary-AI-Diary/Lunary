@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lunary/screens/chat/chat_screen.dart';
-import 'package:lunary/screens/diary/diary_screen.dart';
+import 'package:lunary/services/chat_service.dart';
+import 'package:lunary/widgets/calendar/calendar_button.dart';
 
 class CalendarDialog extends StatefulWidget {
   final Function(String)? onDateSelected;
@@ -14,6 +15,7 @@ class CalendarDialog extends StatefulWidget {
 
 // 달력 위젯
 class _CalendarDialogState extends State<CalendarDialog> {
+  final ChatService _chatService = ChatService();
   late DateTime selectedMonth;
   String? _selectedDateId; // 선택된 날짜 상태 추가
 
@@ -210,9 +212,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                        0xFFE3F3FF,
-                      ), // 연한 하늘색 (대화 기록)
+                      backgroundColor: const Color(0xFFE3F3FF),
                       foregroundColor: Colors.blue.shade600,
                       elevation: 1,
                       shadowColor: Colors.blue.shade100,
@@ -235,30 +235,9 @@ class _CalendarDialogState extends State<CalendarDialog> {
                     },
                     child: const Text('대화 기록'),
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFE7F0), // 연한 핑크 (일기 보기)
-                      foregroundColor: Colors.pink.shade400,
-                      elevation: 1,
-                      shadowColor: Colors.pink.shade100,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => DiaryScreen(dateId: _selectedDateId!),
-                        ),
-                      );
-                    },
-                    child: const Text('일기 보기'),
+                  CalendarButton(
+                    dateId: _selectedDateId!,
+                    chatService: _chatService,
                   ),
                 ],
               ),

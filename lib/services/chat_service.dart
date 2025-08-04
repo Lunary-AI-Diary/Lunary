@@ -162,4 +162,17 @@ class ChatService {
 
     return transcript;
   }
+
+  /// 해당 날짜의 대화 개수를 실시간으로 반환하는 스트림
+  Stream<int> getMessageCountStream(String dateId) {
+    final uid = _auth.currentUser!.uid;
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('chats')
+        .doc(dateId)
+        .collection('messages')
+        .snapshots()
+        .map((snapshot) => snapshot.size);
+  }
 }
