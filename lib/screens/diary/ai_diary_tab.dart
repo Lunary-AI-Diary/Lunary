@@ -26,7 +26,8 @@ class AiDiaryTab extends StatelessWidget {
             "일기제목",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
           ),
-          const SizedBox(height: 16),
+          Text('$dateId 일기', style: const TextStyle(fontSize: 16.0)),
+          const SizedBox(height: 12),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: 120),

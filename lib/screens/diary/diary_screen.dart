@@ -118,7 +118,7 @@ class _DiaryScreenState extends State<DiaryScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(titleText: '${widget.dateId} 일기'),
+      appBar: CommonAppBar(titleText: '일기 보기'),
       body: Column(
         children: [
           // 탭바: "AI 일기", "AI 리뷰", "리포트" 세개 탭
