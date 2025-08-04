@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lunary/screens/chat/chat_screen.dart';
 import 'package:lunary/services/chat_service.dart';
 import 'package:lunary/widgets/calendar/calendar_button.dart';
 
@@ -207,39 +206,9 @@ class _CalendarDialogState extends State<CalendarDialog> {
                 ),
               ),
               const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE3F3FF),
-                      foregroundColor: Colors.blue.shade600,
-                      elevation: 1,
-                      shadowColor: Colors.blue.shade100,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ChatScreen(dateId: _selectedDateId!),
-                        ),
-                      );
-                    },
-                    child: const Text('대화 기록'),
-                  ),
-                  CalendarButton(
-                    dateId: _selectedDateId!,
-                    chatService: _chatService,
-                  ),
-                ],
+              CalendarButton(
+                dateId: _selectedDateId!,
+                chatService: _chatService,
               ),
             ],
           ],
