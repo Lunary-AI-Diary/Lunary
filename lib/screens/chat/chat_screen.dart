@@ -5,6 +5,7 @@ import 'package:lunary/services/chat_service.dart';
 import 'package:lunary/screens/chat/chat_message.dart';
 import 'package:lunary/screens/chat/chat_bubble.dart';
 import 'package:lunary/screens/chat/show_diary_fab.dart';
+import 'package:lunary/screens/chat/reset_fab.dart';
 
 // 채팅 화면
 class ChatScreen extends StatefulWidget {
@@ -167,12 +168,22 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      floatingActionButton: StreamBuilder<int>(
-        stream: _chatService.getMessageCountStream(widget.dateId),
-        builder: (context, snapshot) {
-          final count = snapshot.data ?? 0;
-          return ShowDiaryFab(dateId: widget.dateId, chatCount: count);
-        },
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // 일기 보기 버튼
+          StreamBuilder<int>(
+            stream: _chatService.getMessageCountStream(widget.dateId),
+            builder: (context, snapshot) {
+              final count = snapshot.data ?? 0;
+              return ShowDiaryFab(dateId: widget.dateId, chatCount: count);
+            },
+          ),
+          const SizedBox(width: 10),
+          // 채팅 리셋 버튼
+          ResetFab(dateId: widget.dateId, chatService: _chatService),
+        ],
       ),
     );
   }

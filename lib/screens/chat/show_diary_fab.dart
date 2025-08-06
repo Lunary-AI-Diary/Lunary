@@ -16,7 +16,8 @@ class ShowDiaryFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 60),
-      child: FloatingActionButton.extended(
+      child: FloatingActionButton(
+        heroTag: 'showDiaryFab',
         onPressed: () async {
           // 대화 기록 부족 안내문 표시
           if (chatCount < 10) {
@@ -111,8 +112,8 @@ class ShowDiaryFab extends StatelessWidget {
             }
           }
         },
-        icon: const Icon(Icons.book),
-        label: const Text("일기 보기"),
+        child: const Icon(Icons.book),
+        tooltip: '일기 보기',
       ),
     );
   }
