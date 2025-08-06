@@ -18,12 +18,10 @@ class DiaryScreen extends StatefulWidget {
 
 class _DiaryScreenState extends State<DiaryScreen>
     with SingleTickerProviderStateMixin {
-  final DiaryService _diaryService = DiaryService(); // 일기 관련 서비스 객체
-  String? _diaryContent; // 현재 화면에 보여질 일기 내용
-  bool _isDiaryLoading = true; // 일기 로딩 상태 여부
-  // bool _isReviewLoading = true;
-  // bool _isReportLoading = true;
-
+  final DiaryService _diaryService = DiaryService();
+  String? _diaryTitle; // 추가
+  String? _diaryContent;
+  bool _isDiaryLoading = true;
   late TabController _tabController;
 
   @override
@@ -52,27 +50,35 @@ class _DiaryScreenState extends State<DiaryScreen>
     setState(() => _isDiaryLoading = true);
 
     try {
-      // Firestore에서 일기 데이터 가져오기
-      String? existingDiary = await _diaryService.fetchLatestDiaryFromFirebase(
+      // Firestore에서 일기 데이터 가져오기 (Map 반환)
+      final latestDiary = await _diaryService.fetchLatestDiaryFromFirebase(
         widget.dateId,
       );
 
       // 일기가 없을 경우 새로 생성
-      if (existingDiary == null) {
+      if (latestDiary == null) {
         await _diaryService.generateDiaryFromChat(widget.dateId);
-        existingDiary = await _diaryService.fetchLatestDiaryFromFirebase(
+        // 생성 후 다시 불러오기
+        final generatedDiary = await _diaryService.fetchLatestDiaryFromFirebase(
           widget.dateId,
         );
+        setState(() {
+          _diaryTitle = generatedDiary?['title'] ?? "제목 없음";
+          _diaryContent = generatedDiary?['content'] ?? "일기를 불러올 수 없습니다.";
+          _isDiaryLoading = false;
+        });
+        return;
       }
 
       // 화면에 일기 반영
       setState(() {
-        _diaryContent = existingDiary ?? "일기를 불러올 수 없습니다.";
+        _diaryTitle = latestDiary['title'] ?? "제목 없음";
+        _diaryContent = latestDiary['content'] ?? "일기를 불러올 수 없습니다.";
         _isDiaryLoading = false;
       });
     } catch (e) {
-      // 오류 발생 시 예외 메시지 표시
       setState(() {
+        _diaryTitle = "오류 발생";
         _diaryContent = "오류 발생: $e";
         _isDiaryLoading = false;
       });
@@ -84,28 +90,23 @@ class _DiaryScreenState extends State<DiaryScreen>
     setState(() => _isDiaryLoading = true);
 
     try {
-      // 새 일기 생성 및 저장
       await _diaryService.generateDiaryFromChat(widget.dateId);
-
-      // 새 일기 다시 불러오기
       final updatedDiary = await _diaryService.fetchLatestDiaryFromFirebase(
         widget.dateId,
       );
-
-      // UI에 반영
       setState(() {
-        _diaryContent = updatedDiary ?? "일기를 불러올 수 없습니다.";
+        _diaryTitle = updatedDiary?['title'] ?? "제목 없음";
+        _diaryContent = updatedDiary?['content'] ?? "일기를 불러올 수 없습니다.";
         _isDiaryLoading = false;
       });
 
-      // 성공 메시지 표시
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("일기가 새로 생성되었습니다.")));
     } catch (e) {
-      // 오류 처리 및 메시지 표시
       setState(() {
         _isDiaryLoading = false;
+        _diaryTitle = "오류 발생";
         _diaryContent = "오류 발생: $e";
       });
 
@@ -143,6 +144,7 @@ class _DiaryScreenState extends State<DiaryScreen>
                 // AI 일기
                 AiDiaryTab(
                   isLoading: _isDiaryLoading,
+                  diaryTitle: _diaryTitle, // 추가
                   diaryContent: _diaryContent,
                   dateId: widget.dateId,
                 ),

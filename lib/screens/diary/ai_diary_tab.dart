@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class AiDiaryTab extends StatelessWidget {
   final bool isLoading;
+  final String? diaryTitle;
   final String? diaryContent;
   final String dateId;
 
   const AiDiaryTab({
     super.key,
     required this.isLoading,
+    required this.diaryTitle,
     required this.diaryContent,
     required this.dateId,
   });
@@ -23,7 +25,7 @@ class AiDiaryTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "일기제목",
+            diaryTitle ?? "제목 없음", // 제목 표시
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
           ),
           Text('$dateId 일기', style: const TextStyle(fontSize: 16.0)),
