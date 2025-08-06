@@ -53,14 +53,14 @@ class _DiaryScreenState extends State<DiaryScreen>
 
     try {
       // Firestore에서 일기 데이터 가져오기
-      String? existingDiary = await _diaryService.fetchDiaryFromFirebase(
+      String? existingDiary = await _diaryService.fetchLatestDiaryFromFirebase(
         widget.dateId,
       );
 
       // 일기가 없을 경우 새로 생성
       if (existingDiary == null) {
         await _diaryService.generateDiaryFromChat(widget.dateId);
-        existingDiary = await _diaryService.fetchDiaryFromFirebase(
+        existingDiary = await _diaryService.fetchLatestDiaryFromFirebase(
           widget.dateId,
         );
       }
@@ -79,7 +79,7 @@ class _DiaryScreenState extends State<DiaryScreen>
     }
   }
 
-  // 일기를 재생성하여 Firestore에 덮어쓰는 메서드
+  // 일기를 재생성하는 메서드
   Future<void> _regenerateDiary() async {
     setState(() => _isDiaryLoading = true);
 
@@ -88,7 +88,7 @@ class _DiaryScreenState extends State<DiaryScreen>
       await _diaryService.generateDiaryFromChat(widget.dateId);
 
       // 새 일기 다시 불러오기
-      final updatedDiary = await _diaryService.fetchDiaryFromFirebase(
+      final updatedDiary = await _diaryService.fetchLatestDiaryFromFirebase(
         widget.dateId,
       );
 

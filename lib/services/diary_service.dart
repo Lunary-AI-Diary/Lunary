@@ -62,46 +62,72 @@ class DiaryService {
           .toString()
           .trim();
 
-      await saveDiaryToFirebase(diary, dateId);
+      await saveDiaryVersionToFirebase(diary, dateId);
     } else {
       throw Exception('일기 생성 실패: ${response.body}');
     }
   }
 
-  // 생성된 일기 Firebase에 저장
-  Future<void> saveDiaryToFirebase(String content, String dateId) async {
+  // 일기 버전별로 Firestore에 저장 (versions 컬렉션 하위에 저장)
+  Future<void> saveDiaryVersionToFirebase(String content, String dateId) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) throw Exception("사용자 인증 필요");
 
-    final diaryRef = FirebaseFirestore.instance
+    final versionsRef = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .collection('diaries')
-        .doc(dateId);
+        .doc(dateId)
+        .collection('versions');
 
-    await diaryRef.set({
+    await versionsRef.add({
       'content': content,
       'createdAt': FieldValue.serverTimestamp(),
     });
   }
 
-  // 저장된 일기 Firebase에서 불러오기
-  Future<String?> fetchDiaryFromFirebase(String dateId) async {
+  // 저장된 일기 버전 전체 Firestore에서 불러오기 (최신순)
+  Future<List<Map<String, dynamic>>> fetchDiaryVersionsFromFirebase(
+    String dateId,
+  ) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) throw Exception("사용자 인증 필요");
 
-    final diaryRef = FirebaseFirestore.instance
+    final versionsRef = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .collection('diaries')
-        .doc(dateId);
+        .doc(dateId)
+        .collection('versions');
 
-    final docSnapshot = await diaryRef.get();
+    final snapshot = await versionsRef
+        .orderBy('createdAt', descending: true)
+        .get();
 
-    if (docSnapshot.exists) {
-      return docSnapshot.data()?['content'] as String?;
+    return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  // 최신 일기 버전만 불러오기
+  Future<String?> fetchLatestDiaryFromFirebase(String dateId) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) throw Exception("사용자 인증 필요");
+
+    final versionsRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('diaries')
+        .doc(dateId)
+        .collection('versions');
+
+    final snapshot = await versionsRef
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return snapshot.docs.first.data()['content'] as String?;
     } else {
-      return null; // 해당 날짜에 일기가 없을 경우
+      return null;
     }
   }
 }
