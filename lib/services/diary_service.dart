@@ -175,4 +175,48 @@ class DiaryService {
       return null;
     }
   }
+
+  // 마지막 일기 생성 이후로 대화가 업데이트(추가/수정/삭제) 되었는지 확인
+  Future<bool> isChatUpdatedAfterLastDiary(String dateId) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) throw Exception("사용자 인증 필요");
+
+    // 1. 최신 일기 생성 시각 가져오기
+    final versionsRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('diaries')
+        .doc(dateId)
+        .collection('versions');
+
+    final diarySnapshot = await versionsRef
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .get();
+
+    if (diarySnapshot.docs.isEmpty) {
+      // 일기가 없으면 "일기 재생성"이 아니라, "일기 생성"이 필요한 것이므로 false 반환
+      return false;
+    }
+
+    final lastDiaryCreatedAt =
+        diarySnapshot.docs.first['createdAt'] as Timestamp;
+
+    // 2. 일기 생성 이후에 추가된 메시지가 있는지 확인
+    final messagesRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('chats')
+        .doc(dateId)
+        .collection('messages');
+
+    // `마지막 일기 timestamp < 채팅 timestamp`인 채팅이 하나라도 있으면 채팅 기록이 업데이트 된 것으로 간주
+    final updatedMessages = await messagesRef
+        .where('timestamp', isGreaterThan: lastDiaryCreatedAt)
+        .limit(1)
+        .get();
+
+    // 쿼리 결과, 하나라도 있으면 true
+    return updatedMessages.docs.isNotEmpty;
+  }
 }
