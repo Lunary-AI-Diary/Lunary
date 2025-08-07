@@ -32,7 +32,7 @@ class _DiaryScreenState extends State<DiaryScreen>
       if (mounted) setState(() {}); // 탭이 바뀔 때마다 리빌드
     });
     _loadDiary();
-    _checkAndShowRegenerateDialog(); // 추가: 입장 시 안내문 체크
+    _checkAndShowRegenerateDialog();
   }
 
   @override
