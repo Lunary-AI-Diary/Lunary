@@ -3,7 +3,6 @@ import 'package:lunary/services/diary_service.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/diary/ai_diary_tab.dart';
 import 'package:lunary/screens/diary/ai_review_tab.dart';
-import 'package:lunary/screens/diary/report_tab.dart';
 import 'package:lunary/screens/diary/diary_fab.dart';
 
 // 일기를 보여주는 화면
@@ -27,7 +26,7 @@ class _DiaryScreenState extends State<DiaryScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       if (mounted) setState(() {}); // 탭이 바뀔 때마다 리빌드
     });
@@ -209,7 +208,7 @@ class _DiaryScreenState extends State<DiaryScreen>
       appBar: CommonAppBar(titleText: '일기 보기'),
       body: Column(
         children: [
-          // 탭바: "AI 일기", "AI 리뷰", "리포트" 세개 탭
+          // 탭바: "AI 일기", "AI 리뷰"
           Container(
             color: Colors.white,
             child: TabBar(
@@ -220,7 +219,6 @@ class _DiaryScreenState extends State<DiaryScreen>
               tabs: const [
                 Tab(text: "AI 일기"),
                 Tab(text: "AI 리뷰"),
-                Tab(text: "리포트"),
               ],
             ),
           ),
@@ -237,8 +235,6 @@ class _DiaryScreenState extends State<DiaryScreen>
                 ),
                 // AI 리뷰
                 const AiReviewTab(),
-                // 리포트
-                const ReportTab(),
               ],
             ),
           ),
@@ -248,7 +244,6 @@ class _DiaryScreenState extends State<DiaryScreen>
       // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
       // 0: "일기 재생성" 버튼
       // 1: "리뷰 재생성" 버튼
-      // 2: "리포트 재생성" 버튼
       floatingActionButton: DiaryFloatingActionButton(
         // 인덱스
         tabIndex: _tabController.index,
@@ -260,10 +255,6 @@ class _DiaryScreenState extends State<DiaryScreen>
         // 리뷰 재생성 플로팅 버튼에서 사용
         // isReviewLoading: _isReviewLoading,
         // onRegenerateReview: _regenerateReview,
-
-        // 리포트 재성성 플로팅 버튼에서 사용
-        // isReportLoading: _isReportLoading,
-        // onRegenerateReport: _regenerateReport,
       ),
     );
   }
