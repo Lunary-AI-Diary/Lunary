@@ -22,11 +22,23 @@ class ChatInputField extends StatefulWidget {
 
 class _ChatInputFieldState extends State<ChatInputField> {
   late final TextEditingController _controller;
+  final FocusNode _focusNode = FocusNode(); // 자동 커서 포커스
 
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
+
+    // 위젯이 빌드된 후 자동 포커스 요청
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_focusNode);
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose(); // FocusNode 해제
+    super.dispose();
   }
 
   // 입력된 텍스트를 전송 처리하는 함수
@@ -51,7 +63,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
         children: [
           Expanded(
             child: Container(
-              height: 48,
+              height: 50,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -61,6 +73,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
               child: Center(
                 child: TextField(
                   controller: _controller, // 예시 프롬프트 버튼 텍스트 입력 컨트롤러
+                  focusNode: _focusNode, // FocusNode 연결
                   decoration: const InputDecoration(
                     border: InputBorder.none, // TextField의 기본 테두리 없애기
                     hintText: "대화를 시작해볼까요?",
