@@ -19,7 +19,7 @@ class DiaryScreen extends StatefulWidget {
 class _DiaryScreenState extends State<DiaryScreen>
     with SingleTickerProviderStateMixin {
   final DiaryService _diaryService = DiaryService();
-  String? _diaryTitle; // 추가
+  String? _diaryTitle;
   String? _diaryContent;
   bool _isDiaryLoading = true;
   late TabController _tabController;
@@ -29,9 +29,10 @@ class _DiaryScreenState extends State<DiaryScreen>
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
-      if (mounted) setState(() {}); // 탭이 바뀔 때마다 리빌드(탭 마다 플로팅 액션 버튼이 다르기 때문)
+      if (mounted) setState(() {}); // 탭이 바뀔 때마다 리빌드
     });
     _loadDiary();
+    _checkAndShowRegenerateDialog(); // 추가: 입장 시 안내문 체크
   }
 
   @override
@@ -41,11 +42,7 @@ class _DiaryScreenState extends State<DiaryScreen>
   }
 
   // DiaryScreen 관련 메서드
-  // TODO: 현재는 일기 불러오기, 생성, 재생성, 저장 기능만 있음.
-  // TODO: 리뷰 불러오기, 생성, 재생성, 저장 메서드 만들기
-  // TODO: 리포트 불러오기, 생성, 재생성, 저장 메서드 만들기
-
-  // Firestore에서 일기를 불러오거나 없으면 생성하는 메서드
+  // 1. Firestore에서 일기를 불러오거나 없으면 생성하는 메서드
   Future<void> _loadDiary() async {
     setState(() => _isDiaryLoading = true);
 
@@ -85,7 +82,7 @@ class _DiaryScreenState extends State<DiaryScreen>
     }
   }
 
-  // 일기를 재생성하는 메서드
+  // 2. 일기를 재생성하는 메서드
   Future<void> _regenerateDiary() async {
     setState(() => _isDiaryLoading = true);
 
@@ -113,6 +110,96 @@ class _DiaryScreenState extends State<DiaryScreen>
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("오류 발생: $e")));
+    }
+  }
+
+  // 3. 마지막 일기 생성 이후 채팅이 변경되었으면 안내문 표시
+  Future<void> _checkAndShowRegenerateDialog() async {
+    // 잠깐 대기: context가 완전히 준비된 후 실행
+    await Future.delayed(const Duration(milliseconds: 300));
+    final needRegenerate = await _diaryService.isChatUpdatedAfterLastDiary(
+      widget.dateId,
+    );
+    if (needRegenerate) {
+      if (!mounted) return;
+      final result = await showDialog<bool>(
+        context: context,
+        builder: (context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: const Color(0xFFFFF5EF),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.refresh, color: Colors.pink, size: 36),
+                const SizedBox(height: 16),
+                const Text(
+                  "마지막 일기 생성 이후로\n채팅 기록이 변경되었습니다.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "일기를 재생성할까요?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 15, color: Colors.black54),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade300,
+                          foregroundColor: Colors.black87,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 0,
+                            vertical: 12,
+                          ),
+                        ),
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text("아니오"),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pink,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 0,
+                            vertical: 12,
+                          ),
+                        ),
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text("예"),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      if (result == true) {
+        await _regenerateDiary();
+      }
     }
   }
 
@@ -144,7 +231,7 @@ class _DiaryScreenState extends State<DiaryScreen>
                 // AI 일기
                 AiDiaryTab(
                   isLoading: _isDiaryLoading,
-                  diaryTitle: _diaryTitle, // 추가
+                  diaryTitle: _diaryTitle,
                   diaryContent: _diaryContent,
                   dateId: widget.dateId,
                 ),
@@ -158,20 +245,24 @@ class _DiaryScreenState extends State<DiaryScreen>
         ],
       ),
 
-      // 플로팅 액션 버튼 로직
-      // TODO: 현재는 일기 재생성만 구현되어 있음. 리뷰 재생성, 리포트 재생성 기능 구현할 것.
-
       // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
       // 0: "일기 재생성" 버튼
       // 1: "리뷰 재생성" 버튼
       // 2: "리포트 재생성" 버튼
       floatingActionButton: DiaryFloatingActionButton(
+        // 인덱스
         tabIndex: _tabController.index,
+
+        // 일기 재생성 플로팅 버튼에서 사용
         isDiaryLoading: _isDiaryLoading,
-        // isReviewLoading: _isReviewLoading,
-        // isReportLoading: _isReportLoading,
         onRegenerateDiary: _regenerateDiary,
+
+        // 리뷰 재생성 플로팅 버튼에서 사용
+        // isReviewLoading: _isReviewLoading,
         // onRegenerateReview: _regenerateReview,
+
+        // 리포트 재성성 플로팅 버튼에서 사용
+        // isReportLoading: _isReportLoading,
         // onRegenerateReport: _regenerateReport,
       ),
     );
