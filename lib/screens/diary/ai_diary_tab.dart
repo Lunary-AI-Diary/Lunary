@@ -16,6 +16,7 @@ class AiDiaryTab extends StatelessWidget {
     required this.dateId,
   });
 
+  // 일기 버전을 불러오는 메서드
   Future<void> _showVersionsDialog(BuildContext context) async {
     final diaryService = DiaryService();
     final versions = await diaryService.fetchDiaryVersionsFromFirebase(dateId);

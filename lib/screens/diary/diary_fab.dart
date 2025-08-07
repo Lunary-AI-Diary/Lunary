@@ -27,11 +27,104 @@ class DiaryFloatingActionButton extends StatelessWidget {
     if (tabIndex == 0) {
       // AI 일기 탭
       return FloatingActionButton.extended(
-        onPressed: isDiaryLoading ? null : onRegenerateDiary,
+        onPressed: isDiaryLoading
+            ? null
+            : () async {
+                final result = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: const Color(0xFFFFF5EF),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 28,
+                        horizontal: 24,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.refresh,
+                            color: Colors.pink,
+                            size: 36,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            "일기를 재생성할까요?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            "현재 일기는 이전 버전 보기 버튼으로\n다시 확인할 수 있습니다.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.grey.shade300,
+                                    foregroundColor: Colors.black87,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 0,
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: const Text("아니오"),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.pink,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 0,
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const Text("예"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+                if (result == true) {
+                  onRegenerateDiary();
+                }
+              },
         icon: const Icon(Icons.refresh),
         label: const Text("일기 재생성"),
       );
-    } else if (tabIndex == 1) {
+    } else {
       // AI 리뷰 탭
       return FloatingActionButton.extended(
         onPressed: () {
@@ -39,15 +132,6 @@ class DiaryFloatingActionButton extends StatelessWidget {
         },
         icon: const Icon(Icons.refresh),
         label: const Text("리뷰 재생성"),
-      );
-    } else {
-      // 리포트 탭
-      return FloatingActionButton.extended(
-        onPressed: () {
-          // TODO: 리포트 재생성 기능 구현할 것
-        },
-        icon: const Icon(Icons.refresh),
-        label: const Text("리포트 재생성"),
       );
     }
   }
