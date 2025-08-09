@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/services/diary_service.dart';
+import 'package:lunary/services/review_service.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/diary/ai_diary_tab.dart';
 import 'package:lunary/screens/diary/ai_review_tab.dart';
@@ -18,9 +19,14 @@ class DiaryScreen extends StatefulWidget {
 class _DiaryScreenState extends State<DiaryScreen>
     with SingleTickerProviderStateMixin {
   final DiaryService _diaryService = DiaryService();
+  final ReviewService _reviewService = ReviewService();
   String? _diaryTitle;
   String? _diaryContent;
   bool _isDiaryLoading = true;
+
+  Map<String, dynamic>? _review;
+  bool _isReviewLoading = true;
+
   late TabController _tabController;
 
   @override
@@ -31,6 +37,7 @@ class _DiaryScreenState extends State<DiaryScreen>
       if (mounted) setState(() {}); // 탭이 바뀔 때마다 리빌드
     });
     _loadDiary();
+    _loadReview();
     _checkAndShowRegenerateDialog();
   }
 
@@ -202,6 +209,68 @@ class _DiaryScreenState extends State<DiaryScreen>
     }
   }
 
+  // 4. 리뷰 불러오기 (없으면 자동 생성)
+  Future<void> _loadReview() async {
+    setState(() => _isReviewLoading = true);
+
+    try {
+      final latestReview = await _reviewService.fetchReviewFromFirebase(
+        widget.dateId,
+      );
+
+      if (latestReview == null) {
+        await _reviewService.generateReviewFromChat(widget.dateId);
+        final generatedReview = await _reviewService.fetchReviewFromFirebase(
+          widget.dateId,
+        );
+        setState(() {
+          _review = generatedReview;
+          _isReviewLoading = false;
+        });
+        return;
+      }
+
+      setState(() {
+        _review = latestReview;
+        _isReviewLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _review = {'advice': '오류 발생: $e', 'emotions': {}};
+        _isReviewLoading = false;
+      });
+    }
+  }
+
+  // 5. 리뷰 재생성 메서드
+  Future<void> _regenerateReview() async {
+    setState(() => _isReviewLoading = true);
+
+    try {
+      await _reviewService.regenerateReview(widget.dateId);
+      final updatedReview = await _reviewService.fetchReviewFromFirebase(
+        widget.dateId,
+      );
+      setState(() {
+        _review = updatedReview;
+        _isReviewLoading = false;
+      });
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("리뷰가 새로 생성되었습니다.")));
+    } catch (e) {
+      setState(() {
+        _isReviewLoading = false;
+        _review = {'advice': '오류 발생: $e', 'emotions': {}};
+      });
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("오류 발생: $e")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,27 +303,22 @@ class _DiaryScreenState extends State<DiaryScreen>
                   dateId: widget.dateId,
                 ),
                 // AI 리뷰
-                AiReviewTab(dateId: widget.dateId),
+                AiReviewTab(
+                  isLoading: _isReviewLoading,
+                  review: _review,
+                  dateId: widget.dateId,
+                ),
               ],
             ),
           ),
         ],
       ),
-
-      // _tabController.index에 따라 플로팅액션버튼이 다르게 표시.
-      // 0: "일기 재생성" 버튼
-      // 1: "리뷰 재생성" 버튼
       floatingActionButton: DiaryFloatingActionButton(
-        // 인덱스
         tabIndex: _tabController.index,
-
-        // 일기 재생성 플로팅 버튼에서 사용
         isDiaryLoading: _isDiaryLoading,
+        isReviewLoading: _isReviewLoading,
         onRegenerateDiary: _regenerateDiary,
-
-        // 리뷰 재생성 플로팅 버튼에서 사용
-        // isReviewLoading: _isReviewLoading,
-        // onRegenerateReview: _regenerateReview,
+        onRegenerateReview: _regenerateReview,
       ),
     );
   }
