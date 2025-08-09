@@ -89,9 +89,7 @@ class AiReviewTab extends StatelessWidget {
       case 'anger':
         return '분노';
       case 'surprise':
-        return '관심';
-      case 'disgust':
-        return '혐오';
+        return '놀람';
       default:
         return key;
     }
