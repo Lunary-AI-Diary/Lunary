@@ -105,22 +105,18 @@ class _AiReviewTabState extends State<AiReviewTab> {
 
   String _emotionLabel(String key) {
     switch (key) {
-      case 'anger':
-        return '분노';
-      case 'fear':
-        return '두려움';
       case 'happiness':
         return '행복';
       case 'sadness':
         return '슬픔';
-      case 'interest':
-        return '관심';
+      case 'fear':
+        return '두려움';
+      case 'anger':
+        return '분노';
       case 'surprise':
-        return '놀라움';
+        return '관심';
       case 'disgust':
         return '혐오';
-      case 'shame':
-        return '수치심';
       default:
         return key;
     }

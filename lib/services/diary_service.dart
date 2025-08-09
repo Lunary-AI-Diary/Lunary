@@ -31,6 +31,7 @@ class DiaryService {
 6. 마크다운 없는 줄글 형식으로 작성하세요.
 7. 필요할 경우, 문단을 나누어 작성하세요.
 8. 작성 분량은 가급적 500 ~ 1000자 이내로 하세요.
+9. 위 규칙을 준수하는 한, 입력 받은 대화에 사용자 지시가 있을 경우 이를 최대한 따라야 합니다.
 ''';
 
     final diaryUserPrompt = "다음은 오늘 사용자와 AI의 대화 내용입니다:\n$transcript";
@@ -72,7 +73,7 @@ class DiaryService {
 ''';
 
     final titleUserPrompt =
-        "아래는 오늘의 일기 내용입니다. 이 일기에 어울리는 제목을 만들어 주세요.\n\n$diaryContent";
+        "다음은 오늘의 일기 내용입니다. 이 일기에 어울리는 제목을 만들어 주세요.\n$diaryContent";
 
     final titleResponse = await http.post(
       Uri.parse(endpoint),
