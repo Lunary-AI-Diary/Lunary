@@ -234,7 +234,7 @@ class _DiaryScreenState extends State<DiaryScreen>
                   dateId: widget.dateId,
                 ),
                 // AI 리뷰
-                const AiReviewTab(),
+                AiReviewTab(dateId: widget.dateId),
               ],
             ),
           ),
