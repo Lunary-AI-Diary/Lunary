@@ -24,7 +24,7 @@ class ReviewService {
 이를 바탕으로 아래 규칙에 따라 사용자의 감정을 5가지 감정 분류(happiness, sadness, fear, anger, surprise)로 백분율(0~100, 합계 100)로 분석해 주세요.
 
 1. 감정 분석은 반드시 사용자 입장에서 이루어져야 합니다.
-2. 반드시 아래 JSON 형식으로만 응답하세요. Key의 순서는 happiness, sadness, fear, anger, surprise이며 각 감정의 백분율은 소수점 없이 정수로만 표현하세요.
+2. 반드시 아래 JSON 형식으로만 응답하세요. 각 감정의 백분율은 소수점 없이 정수로만 표현하세요.
 - 예시:
 {
   "happiness": 10,
