@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lunary/services/diary_service.dart';
 import 'package:lunary/screens/diary/diary_versions_dialog.dart';
 
 class AiDiaryTab extends StatelessWidget {
@@ -16,23 +15,6 @@ class AiDiaryTab extends StatelessWidget {
     required this.dateId,
   });
 
-  // 일기 버전을 불러오는 메서드
-  Future<void> _showVersionsDialog(BuildContext context) async {
-    final diaryService = DiaryService();
-    final versions = await diaryService.fetchDiaryVersionsFromFirebase(dateId);
-
-    // 가장 최근 일기(현재 탭에 보이는 것)는 제외
-    final previousVersions = versions.length > 1
-        ? versions.sublist(1).cast<Map<String, dynamic>>()
-        : <Map<String, dynamic>>[];
-
-    showDialog(
-      context: context,
-      builder: (context) =>
-          DiaryVersionsDialog(previousVersions: previousVersions),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -42,7 +24,6 @@ class AiDiaryTab extends StatelessWidget {
       width: double.infinity,
       color: const Color(0xFFFFF8E1), // 연한 종이색 배경
       child: SafeArea(
-        // <-- 추가
         child: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 500),
@@ -95,7 +76,8 @@ class AiDiaryTab extends StatelessWidget {
                           vertical: 8,
                         ),
                       ),
-                      onPressed: () => _showVersionsDialog(context),
+                      onPressed: () =>
+                          DiaryVersionsDialog.show(context, dateId),
                       icon: const Icon(Icons.history, size: 18),
                       label: const Text("이전 버전"),
                     ),

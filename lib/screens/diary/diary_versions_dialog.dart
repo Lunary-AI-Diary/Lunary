@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:lunary/services/diary_service.dart';
 
 class DiaryVersionsDialog extends StatelessWidget {
   final List<Map<String, dynamic>> previousVersions;
 
   const DiaryVersionsDialog({super.key, required this.previousVersions});
+
+  // 일기 이전 버전 불러오기
+  static Future<void> show(BuildContext context, String dateId) async {
+    final diaryService = DiaryService();
+    final versions = await diaryService.fetchDiaryVersionsFromFirebase(dateId);
+    final previousVersions = versions.length > 1
+        ? versions.sublist(1).cast<Map<String, dynamic>>()
+        : <Map<String, dynamic>>[];
+
+    showDialog(
+      context: context,
+      builder: (context) =>
+          DiaryVersionsDialog(previousVersions: previousVersions),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
