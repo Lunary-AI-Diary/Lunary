@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/widgets/calendar/calendar_dialog.dart';
-import 'package:lunary/screens/account/login_screen.dart';
+import 'package:lunary/screens/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {

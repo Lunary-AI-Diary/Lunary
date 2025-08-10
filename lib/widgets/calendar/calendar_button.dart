@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunary/screens/diary/diary_screen.dart';
 import 'package:lunary/services/chat_service.dart';
 import 'package:lunary/screens/chat/chat_screen.dart';
-import 'package:lunary/widgets/no_chat_dialog.dart';
+import 'package:lunary/widgets/calendar/no_chat_dialog.dart';
 import 'package:lunary/widgets/insufficient_chat_dialog.dart';
 
 class CalendarButton extends StatelessWidget {

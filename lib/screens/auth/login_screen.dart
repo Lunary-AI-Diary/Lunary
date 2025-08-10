@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/services/auth_service.dart';
-import 'package:lunary/screens/account/sign_up_screen.dart';
+import 'package:lunary/screens/auth/sign_up_screen.dart';
 import 'package:lunary/screens/home/home_screen.dart';
 
 // 채팅 테스트

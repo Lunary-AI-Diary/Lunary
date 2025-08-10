@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lunary/screens/chat/chat_message.dart';
+import 'package:lunary/models/chat_message.dart';
 
 // 말풍선 위젯
 class ChatBubble extends StatelessWidget {

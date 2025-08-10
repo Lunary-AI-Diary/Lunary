@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/widgets/chat_input_field.dart';
 import 'package:lunary/services/chat_service.dart';
-import 'package:lunary/screens/chat/chat_message.dart';
+import 'package:lunary/models/chat_message.dart';
 import 'package:lunary/screens/chat/chat_bubble.dart';
 import 'package:lunary/screens/chat/show_diary_fab.dart';
 import 'package:lunary/screens/chat/reset_fab.dart';

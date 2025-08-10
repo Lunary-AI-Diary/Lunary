@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunary/screens/diary/diary_versions_dialog.dart';
+import 'package:lunary/widgets/diary/diary_versions_dialog.dart';
 
 class AiDiaryTab extends StatelessWidget {
   final bool isLoading;

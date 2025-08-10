@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/services/chat_service.dart';
-import 'package:lunary/screens/chat/reset_dialog.dart';
+import 'package:lunary/widgets/chat/reset_dialog.dart';
 
 class ResetFab extends StatelessWidget {
   final String dateId;

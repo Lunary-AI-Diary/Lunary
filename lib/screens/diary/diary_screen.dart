@@ -5,7 +5,7 @@ import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/diary/ai_diary_tab.dart';
 import 'package:lunary/screens/diary/ai_review_tab.dart';
 import 'package:lunary/screens/diary/diary_fab.dart';
-import 'package:lunary/screens/diary/diary_regenerate_dialog.dart';
+import 'package:lunary/widgets/diary/diary_regenerate_dialog.dart';
 
 // 일기를 보여주는 화면
 class DiaryScreen extends StatefulWidget {

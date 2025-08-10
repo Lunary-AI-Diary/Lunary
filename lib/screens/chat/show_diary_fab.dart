@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/screens/diary/diary_screen.dart';
-import 'package:lunary/screens/chat/show_diary_dialog.dart';
+import 'package:lunary/widgets/chat/show_diary_dialog.dart';
 import 'package:lunary/widgets/insufficient_chat_dialog.dart';
 
 class ShowDiaryFab extends StatelessWidget {
