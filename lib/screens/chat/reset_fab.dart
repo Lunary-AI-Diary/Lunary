@@ -19,7 +19,7 @@ class ResetFab extends StatelessWidget {
         onPressed: () async {
           final confirm = await showDialog<bool>(
             context: context,
-            builder: (context) => const ResetChatDialog(),
+            builder: (context) => const ResetDialog(),
           );
           if (confirm == true) {
             await chatService.deleteAllMessages(dateId);

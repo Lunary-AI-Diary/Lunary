@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ResetDialog extends StatelessWidget {
-  const ResetDialog({super.key});
+class ShowDiaryDialog extends StatelessWidget {
+  const ShowDiaryDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +13,10 @@ class ResetDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.refresh, color: Colors.pink, size: 36),
+            Icon(Icons.book, color: Colors.pink, size: 36),
             const SizedBox(height: 16),
             const Text(
-              "채팅 기록을 모두 삭제할까요?",
+              "AI 채팅을 종료하고\n일기를 확인할까요?",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -26,7 +26,7 @@ class ResetDialog extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             const Text(
-              "삭제된 채팅 기록은 복구할 수 없습니다.",
+              "AI 채팅은 달력에서 선택해\n언제든 이어서 할 수 있습니다.",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 15, color: Colors.black54),
             ),
