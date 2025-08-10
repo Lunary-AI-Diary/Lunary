@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 // 일기 화면 플로팅 액션 버튼 위젯
-class DiaryFloatingActionButton extends StatelessWidget {
+class DiaryFab extends StatelessWidget {
   final int tabIndex;
   final bool isDiaryLoading;
   final bool isReviewLoading;
   final VoidCallback onRegenerateDiary;
   final VoidCallback onRegenerateReview;
 
-  const DiaryFloatingActionButton({
+  const DiaryFab({
     super.key,
     required this.tabIndex,
     required this.isDiaryLoading,

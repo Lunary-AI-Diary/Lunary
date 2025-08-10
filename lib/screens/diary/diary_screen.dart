@@ -243,7 +243,7 @@ class _DiaryScreenState extends State<DiaryScreen>
           ),
         ],
       ),
-      floatingActionButton: DiaryFloatingActionButton(
+      floatingActionButton: DiaryFab(
         tabIndex: _tabController.index,
         isDiaryLoading: _isDiaryLoading,
         isReviewLoading: _isReviewLoading,
