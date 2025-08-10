@@ -5,6 +5,7 @@ import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/diary/ai_diary_tab.dart';
 import 'package:lunary/screens/diary/ai_review_tab.dart';
 import 'package:lunary/screens/diary/diary_fab.dart';
+import 'package:lunary/screens/diary/diary_regenerate_dialog.dart';
 
 // 일기를 보여주는 화면
 class DiaryScreen extends StatefulWidget {
@@ -130,78 +131,7 @@ class _DiaryScreenState extends State<DiaryScreen>
       if (!mounted) return;
       final result = await showDialog<bool>(
         context: context,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          backgroundColor: const Color(0xFFFFF5EF),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.refresh, color: Colors.pink, size: 36),
-                const SizedBox(height: 16),
-                const Text(
-                  "마지막 일기 생성 이후로\n채팅 기록이 변경되었습니다.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "일기를 재생성할까요?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15, color: Colors.black54),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade300,
-                          foregroundColor: Colors.black87,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 0,
-                            vertical: 12,
-                          ),
-                        ),
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: const Text("아니오"),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 0,
-                            vertical: 12,
-                          ),
-                        ),
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: const Text("예"),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+        builder: (context) => const DiaryRegenerateDialog(),
       );
       if (result == true) {
         await _regenerateDiary();
