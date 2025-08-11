@@ -22,6 +22,8 @@ class DiaryFab extends StatelessWidget {
     if (tabIndex == 0) {
       // AI 일기 탭
       return FloatingActionButton.extended(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.pink,
         onPressed: isDiaryLoading
             ? null
             : () async {
@@ -122,6 +124,8 @@ class DiaryFab extends StatelessWidget {
     } else {
       // AI 리뷰 탭
       return FloatingActionButton.extended(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.pink,
         onPressed: isReviewLoading
             ? null
             : () async {
