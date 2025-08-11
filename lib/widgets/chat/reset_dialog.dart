@@ -16,7 +16,7 @@ class ResetDialog extends StatelessWidget {
             Icon(Icons.refresh, color: Colors.pink, size: 36),
             const SizedBox(height: 16),
             const Text(
-              "채팅 기록을 모두 삭제할까요?",
+              "해당 채팅을 초기화 할까요?",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
