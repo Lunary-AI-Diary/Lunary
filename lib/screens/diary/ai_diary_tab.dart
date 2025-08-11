@@ -97,54 +97,29 @@ class AiDiaryTab extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 18),
-                // 본문 (줄노트 느낌: Divider로 가로줄 효과)
+                // 본문
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
                       horizontal: 4,
                     ),
-                    child: Stack(
-                      children: [
-                        // 가로줄 효과
-                        LayoutBuilder(
-                          builder: (context, constraints) {
-                            final lineHeight = 32.0;
-                            final lineCount =
-                                (constraints.maxHeight / lineHeight).floor();
-                            return Column(
-                              children: List.generate(
-                                lineCount,
-                                (index) => Expanded(
-                                  child: Divider(
-                                    color: Colors.orange.shade50,
-                                    thickness: 1,
-                                    height: lineHeight,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0,
+                          vertical: 4.0,
                         ),
-                        // 본문 텍스트
-                        SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4.0,
-                              vertical: 4.0,
-                            ),
-                            child: Text(
-                              diaryContent ?? "일기가 없습니다.",
-                              style: const TextStyle(
-                                fontFamily: 'Roboto', // 손글씨 느낌 폰트가 있으면 교체
-                                fontSize: 18,
-                                height: 2.0, // 줄 간격 넓게
-                                color: Colors.black87,
-                              ),
-                            ),
+                        child: Text(
+                          diaryContent ?? "일기가 없습니다.",
+                          style: const TextStyle(
+                            fontFamily: 'Roboto', // 손글씨 느낌 폰트가 있으면 교체
+                            fontSize: 18,
+                            height: 2.0, // 줄 간격 넓게
+                            color: Colors.black87,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
