@@ -27,10 +27,10 @@ class CalendarButton extends StatelessWidget {
             // 대화기록 버튼
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE3F3FF),
-                foregroundColor: Colors.blue.shade600,
+                backgroundColor: const Color(0xFFFFE7F0),
+                foregroundColor: Colors.pink.shade400,
                 elevation: 1,
-                shadowColor: Colors.blue.shade100,
+                shadowColor: Colors.pink.shade100,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -76,10 +76,10 @@ class CalendarButton extends StatelessWidget {
             // 일기보기 버튼
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFE7F0),
-                foregroundColor: Colors.pink.shade400,
+                backgroundColor: const Color(0xFFE3F3FF),
+                foregroundColor: Colors.blue.shade600,
                 elevation: 1,
-                shadowColor: Colors.pink.shade100,
+                shadowColor: Colors.blue.shade100,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

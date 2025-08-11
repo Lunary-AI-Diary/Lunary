@@ -20,7 +20,7 @@ class ShowDiaryFab extends StatelessWidget {
       child: FloatingActionButton(
         heroTag: 'showDiaryFab',
         backgroundColor: Colors.white,
-        foregroundColor: Colors.lightBlue,
+        foregroundColor: Colors.blue.shade600,
         onPressed: () async {
           // 대화 기록 부족 안내문 표시
           if (chatCount < 10) {
