@@ -246,7 +246,6 @@ class _CalendarDialogState extends State<CalendarDialog> {
                     CalendarButton(
                       dateId: _selectedDateId!,
                       chatService: _chatService,
-                      isInCard: true,
                     ),
                   ],
                 ),

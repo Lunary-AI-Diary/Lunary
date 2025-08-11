@@ -8,13 +8,11 @@ import 'package:lunary/widgets/insufficient_chat_dialog.dart';
 class CalendarButton extends StatelessWidget {
   final String dateId;
   final ChatService chatService;
-  final bool isInCard; // 카드 안에서 쓸 때 true
 
   const CalendarButton({
     super.key,
     required this.dateId,
     required this.chatService,
-    this.isInCard = false,
   });
 
   @override
@@ -29,17 +27,15 @@ class CalendarButton extends StatelessWidget {
             // 대화기록 버튼
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: isInCard
-                    ? const Color(0xFFF3F8FF)
-                    : const Color(0xFFE3F3FF),
+                backgroundColor: const Color(0xFFE3F3FF),
                 foregroundColor: Colors.blue.shade600,
-                elevation: 0,
-                shadowColor: Colors.transparent,
+                elevation: 1,
+                shadowColor: Colors.blue.shade100,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 22,
+                  horizontal: 24,
                   vertical: 12,
                 ),
                 textStyle: const TextStyle(
@@ -80,17 +76,15 @@ class CalendarButton extends StatelessWidget {
             // 일기보기 버튼
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: isInCard
-                    ? const Color(0xFFFFF0F7)
-                    : const Color(0xFFFFE7F0),
+                backgroundColor: const Color(0xFFFFE7F0),
                 foregroundColor: Colors.pink.shade400,
-                elevation: 0,
-                shadowColor: Colors.transparent,
+                elevation: 1,
+                shadowColor: Colors.pink.shade100,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 22,
+                  horizontal: 24,
                   vertical: 12,
                 ),
                 textStyle: const TextStyle(
