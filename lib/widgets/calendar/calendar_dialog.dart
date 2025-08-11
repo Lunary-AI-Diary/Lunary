@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lunary/services/chat_service.dart';
+import 'package:lunary/utils/date_utils.dart';
 import 'package:lunary/widgets/calendar/calendar_button.dart';
 
 class CalendarDialog extends StatefulWidget {
@@ -197,18 +198,58 @@ class _CalendarDialogState extends State<CalendarDialog> {
 
             // 날짜를 선택했을 때만 버튼 표시
             if (_selectedDateId != null) ...[
-              const SizedBox(height: 16),
-              Text(
-                '선택된 날짜: $_selectedDateId',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              const SizedBox(height: 18),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 22,
+                  horizontal: 18,
                 ),
-              ),
-              const SizedBox(height: 12),
-              CalendarButton(
-                dateId: _selectedDateId!,
-                chatService: _chatService,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.brown.withOpacity(0.08),
+                      blurRadius: 16,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                  border: Border.all(color: Colors.orange.shade100, width: 1.2),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      '선택된 날짜',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Colors.grey,
+                        letterSpacing: 1.1,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      formatDateIdToKorean(_selectedDateId),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.pink,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    CalendarButton(
+                      dateId: _selectedDateId!,
+                      chatService: _chatService,
+                      isInCard: true,
+                    ),
+                  ],
+                ),
               ),
             ],
           ],

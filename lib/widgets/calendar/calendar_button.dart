@@ -8,11 +8,13 @@ import 'package:lunary/widgets/insufficient_chat_dialog.dart';
 class CalendarButton extends StatelessWidget {
   final String dateId;
   final ChatService chatService;
+  final bool isInCard; // 카드 안에서 쓸 때 true
 
   const CalendarButton({
     super.key,
     required this.dateId,
     required this.chatService,
+    this.isInCard = false,
   });
 
   @override
@@ -22,21 +24,27 @@ class CalendarButton extends StatelessWidget {
       builder: (context, snapshot) {
         final count = snapshot.data ?? 0;
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 대화기록 버튼
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE3F3FF),
+                backgroundColor: isInCard
+                    ? const Color(0xFFF3F8FF)
+                    : const Color(0xFFE3F3FF),
                 foregroundColor: Colors.blue.shade600,
-                elevation: 1,
-                shadowColor: Colors.blue.shade100,
+                elevation: 0,
+                shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
+                  horizontal: 22,
                   vertical: 12,
+                ),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
                 ),
               ),
               onPressed: () async {
@@ -68,20 +76,26 @@ class CalendarButton extends StatelessWidget {
               },
               child: const Text('대화 기록'),
             ),
-
+            const SizedBox(width: 16),
             // 일기보기 버튼
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFE7F0),
+                backgroundColor: isInCard
+                    ? const Color(0xFFFFF0F7)
+                    : const Color(0xFFFFE7F0),
                 foregroundColor: Colors.pink.shade400,
-                elevation: 1,
-                shadowColor: Colors.pink.shade100,
+                elevation: 0,
+                shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
+                  horizontal: 22,
                   vertical: 12,
+                ),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
                 ),
               ),
               onPressed: () async {
