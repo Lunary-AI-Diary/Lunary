@@ -6,6 +6,7 @@ import 'package:lunary/models/chat_message.dart';
 import 'package:lunary/screens/chat/chat_bubble.dart';
 import 'package:lunary/screens/chat/show_diary_fab.dart';
 import 'package:lunary/screens/chat/reset_fab.dart';
+import 'package:lunary/utils/date_utils.dart';
 
 // 채팅 화면
 class ChatScreen extends StatefulWidget {
@@ -78,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    "${widget.dateId} 채팅",
+                    "${formatDateIdToKorean(widget.dateId)} 채팅",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13,

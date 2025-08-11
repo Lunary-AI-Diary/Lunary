@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/widgets/diary/diary_versions_dialog.dart';
+import 'package:lunary/utils/date_utils.dart';
 
 class AiDiaryTab extends StatelessWidget {
   final bool isLoading;
@@ -54,7 +55,7 @@ class AiDiaryTab extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      dateId,
+                      formatDateIdToKorean(dateId),
                       style: const TextStyle(
                         fontSize: 15,
                         color: Colors.brown,
