@@ -60,6 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CommonAppBar(titleText: 'AI 채팅'),
+      backgroundColor: const Color(0xFFFFF5EF),
       body: SafeArea(
         child: Column(
           children: [

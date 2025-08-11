@@ -89,7 +89,7 @@ class AiDiaryTab extends StatelessWidget {
                   diaryTitle ?? "제목 없음",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontFamily: 'Roboto', // 시스템 기본 폰트(손글씨 느낌 폰트가 있으면 교체)
+                    fontFamily: 'Roboto', // 시스템 기본 폰트(TODO: 손글씨 느낌 폰트가 있으면 교체)
                     fontSize: 28,
                     color: Colors.pink,
                     fontWeight: FontWeight.bold,
@@ -113,7 +113,8 @@ class AiDiaryTab extends StatelessWidget {
                         child: Text(
                           diaryContent ?? "일기가 없습니다.",
                           style: const TextStyle(
-                            fontFamily: 'Roboto', // 손글씨 느낌 폰트가 있으면 교체
+                            fontFamily:
+                                'Roboto', // 시스템 기본 폰트(TODO: 손글씨 느낌 폰트가 있으면 교체)
                             fontSize: 18,
                             height: 2.0, // 줄 간격 넓게
                             color: Colors.black87,

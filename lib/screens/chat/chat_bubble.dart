@@ -24,29 +24,68 @@ class ChatBubble extends StatelessWidget {
               end: Alignment.bottomRight,
             )
           : null,
-      color: isUser ? null : const Color(0xFFF4F4F4),
-      borderRadius: BorderRadius.circular(16),
+      color: isUser ? null : Colors.white, // AI 버블 배경
+      borderRadius: BorderRadius.only(
+        topLeft: const Radius.circular(18),
+        topRight: const Radius.circular(18),
+        bottomLeft: Radius.circular(isUser ? 18 : 4),
+        bottomRight: Radius.circular(isUser ? 4 : 18),
+      ),
+      boxShadow: isUser
+          ? []
+          : [
+              BoxShadow(
+                color: Colors.orange.withOpacity(0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+      border: isUser
+          ? null
+          : Border.all(color: Colors.orange.shade100, width: 1.2),
     );
 
     final textStyle = TextStyle(
-      fontSize: 14,
+      fontSize: 15,
       color: isUser ? Colors.white : Colors.black87,
+      fontWeight: isUser ? FontWeight.w500 : FontWeight.normal,
+      height: 1.6,
     );
 
     return Column(
       crossAxisAlignment: alignment,
       children: [
-        Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.8,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          margin: const EdgeInsets.symmetric(vertical: 4),
-          decoration: bubbleDecoration,
-          child: Text(message.text, style: textStyle),
+        Row(
+          mainAxisAlignment: isUser
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          children: [
+            if (!isUser)
+              Padding(
+                padding: const EdgeInsets.only(right: 8, bottom: 2),
+                child: Image.asset(
+                  'assets/logo.png',
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.75,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              margin: const EdgeInsets.symmetric(vertical: 4),
+              decoration: bubbleDecoration,
+              child: Text(message.text, style: textStyle),
+            ),
+          ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: EdgeInsets.only(
+            left: isUser ? 0 : 44,
+            right: isUser ? 8 : 0,
+          ),
           child: Text(
             message.timestamp != null
                 ? DateFormat('a hh:mm').format(message.timestamp!)
