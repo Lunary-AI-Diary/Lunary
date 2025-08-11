@@ -22,7 +22,7 @@ class AiDiaryTab extends StatelessWidget {
     }
     return Container(
       width: double.infinity,
-      color: const Color(0xFFFFF8E1), // 연한 종이색 배경
+      color: const Color(0xFFFFF5EF), // 배경색
       child: SafeArea(
         child: Center(
           child: Container(
