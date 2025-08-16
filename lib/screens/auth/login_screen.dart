@@ -222,7 +222,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.g_mobiledata),
                         label: const Text('Google'),
-                        onPressed: () {}, // TODO: 구글 연동 로직 구현
+                        onPressed: () async {
+                          try {
+                            await AuthService().signInWithGoogle();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('구글 로그인 성공!')),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('구글 로그인 실패: $e')),
+                            );
+                          }
+                        },
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),

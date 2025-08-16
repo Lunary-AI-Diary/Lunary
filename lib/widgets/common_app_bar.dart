@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunary/widgets/calendar/calendar_dialog.dart';
 import 'package:lunary/screens/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleText; // 앱바 타이틀 텍스트
@@ -82,6 +83,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                         onTap: () async {
                           // Firebase 로그아웃
                           await FirebaseAuth.instance.signOut();
+                          await GoogleSignIn().signOut();
 
                           // 네비게이션 스택에서 첫 화면 제외 나머지 화면 제거(pop)
                           // 남은 첫 화면을 로그인 화면이로 이동
