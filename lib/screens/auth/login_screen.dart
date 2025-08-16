@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lunary/services/auth_service.dart';
 import 'package:lunary/screens/auth/sign_up_screen.dart';
 import 'package:lunary/screens/home/home_screen.dart';
-
-// 채팅 테스트
-// import 'package:lunary/screens/chat/chat_screen.dart';
+import 'package:lunary/widgets/common_error_dialog.dart';
+import 'dart:developer';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,9 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('로그인 실패: $e')));
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '로그인 실패'),
+      );
+      log('로그인 실패: $e', name: 'login_screen.dart');
     }
   }
 
@@ -226,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           try {
                             await AuthService().signInWithGoogle();
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('구글 로그인 성공!')),
+                              const SnackBar(content: Text('로그인 성공!')),
                             );
                             Navigator.pushReplacement(
                               context,
@@ -235,9 +236,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('구글 로그인 실패: $e')),
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  CommonErrorDialog(message: '로그인 실패'),
                             );
+                            log('로그인 실패: $e', name: 'login_screen.dart');
                           }
                         },
                         style: OutlinedButton.styleFrom(

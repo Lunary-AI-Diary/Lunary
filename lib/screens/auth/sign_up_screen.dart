@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/services/auth_service.dart';
+import 'package:lunary/widgets/common_error_dialog.dart';
+import 'dart:developer';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -24,9 +26,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ).showSnackBar(const SnackBar(content: Text('회원가입 성공!')));
       Navigator.pop(context); // 회원가입 후 로그인 화면으로 이동
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('회원가입 실패: $e')));
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '회원가입 실패'),
+      );
+      log('회원가입 실패: $e', name: 'sign_up_screen.dart');
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lunary/services/diary_service.dart';
 import 'package:lunary/services/review_service.dart';
@@ -5,6 +7,7 @@ import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/screens/diary/ai_diary_tab.dart';
 import 'package:lunary/screens/diary/ai_review_tab.dart';
 import 'package:lunary/screens/diary/diary_fab.dart';
+import 'package:lunary/widgets/common_error_dialog.dart';
 import 'package:lunary/widgets/diary/diary_regenerate_dialog.dart';
 
 // 일기를 보여주는 화면
@@ -81,9 +84,15 @@ class _DiaryScreenState extends State<DiaryScreen>
         _isDiaryLoading = false;
       });
     } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '일기 불러오기 실패'),
+      );
+      log('일기 불러오기 실패: $e', name: 'diary_screen.dart');
+
       setState(() {
-        _diaryTitle = "오류 발생";
-        _diaryContent = "오류 발생: $e";
+        _diaryTitle = "제목 없음";
+        _diaryContent = "일기를 불러올 수 없습니다.";
         _isDiaryLoading = false;
       });
     }
@@ -108,15 +117,17 @@ class _DiaryScreenState extends State<DiaryScreen>
         context,
       ).showSnackBar(const SnackBar(content: Text("일기가 새로 생성되었습니다.")));
     } catch (e) {
-      setState(() {
-        _isDiaryLoading = false;
-        _diaryTitle = "오류 발생";
-        _diaryContent = "오류 발생: $e";
-      });
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '일기 재생성 실패'),
+      );
+      log('일기 재생성 실패: $e', name: 'diary_screen.dart');
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("오류 발생: $e")));
+      setState(() {
+        _diaryTitle = "제목 없음";
+        _diaryContent = "일기를 불러올 수 없습니다.";
+        _isDiaryLoading = false;
+      });
     }
   }
 
@@ -169,8 +180,14 @@ class _DiaryScreenState extends State<DiaryScreen>
         _isReviewLoading = false;
       });
     } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '리뷰 불러오기 실패'),
+      );
+      log('리뷰 불러오기 실패: $e', name: 'diary_screen.dart');
+
       setState(() {
-        _review = {'advice': '오류 발생: $e', 'emotions': {}};
+        _review = {'advice': 'AI 리뷰를 불러올 수 없습니다.', 'emotions': {}};
         _isReviewLoading = false;
       });
     }
@@ -194,14 +211,16 @@ class _DiaryScreenState extends State<DiaryScreen>
         context,
       ).showSnackBar(const SnackBar(content: Text("리뷰가 새로 생성되었습니다.")));
     } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '리뷰 재생성 실패'),
+      );
+      log('리뷰 재생성 실패: $e', name: 'diary_screen.dart');
+
       setState(() {
         _isReviewLoading = false;
-        _review = {'advice': '오류 발생: $e', 'emotions': {}};
+        _review = {'advice': 'AI 리뷰를 불러올 수 없습니다.', 'emotions': {}};
       });
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("오류 발생: $e")));
     }
   }
 

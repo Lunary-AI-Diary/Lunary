@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:lunary/widgets/common_app_bar.dart';
 import 'package:lunary/widgets/chat_input_field.dart';
@@ -7,6 +8,7 @@ import 'package:lunary/screens/chat/chat_bubble.dart';
 import 'package:lunary/screens/chat/show_diary_fab.dart';
 import 'package:lunary/screens/chat/reset_fab.dart';
 import 'package:lunary/utils/date_utils.dart';
+import 'package:lunary/widgets/common_error_dialog.dart';
 
 // 채팅 화면
 class ChatScreen extends StatefulWidget {
@@ -44,9 +46,11 @@ class _ChatScreenState extends State<ChatScreen> {
             widget.dateId,
           );
         } catch (e) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text("오류 발생: $e")));
+          showDialog(
+            context: context,
+            builder: (context) => CommonErrorDialog(message: '메세지 송수신 실패'),
+          );
+          log('메세지 송수신 실패: $e', name: 'chat_screen.dart');
         } finally {
           setState(() {
             _isLoading = false;
