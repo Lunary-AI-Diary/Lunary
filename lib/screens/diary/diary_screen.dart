@@ -134,7 +134,11 @@ class _DiaryScreenState extends State<DiaryScreen>
         builder: (context) => const DiaryRegenerateDialog(),
       );
       if (result == true) {
+        // 일기 재생성
         await _regenerateDiary();
+
+        // 리뷰 재생성
+        await _regenerateReview();
       }
     }
   }

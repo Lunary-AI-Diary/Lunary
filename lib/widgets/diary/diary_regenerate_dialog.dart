@@ -16,7 +16,7 @@ class DiaryRegenerateDialog extends StatelessWidget {
             Icon(Icons.refresh, color: Colors.pink, size: 36),
             const SizedBox(height: 16),
             const Text(
-              "마지막 일기 생성 이후로\n채팅 기록이 변경되었습니다.",
+              "마지막 일기/리뷰 생성 이후로\n채팅 기록이 변경되었습니다.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -26,7 +26,7 @@ class DiaryRegenerateDialog extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             const Text(
-              "일기를 재생성할까요?",
+              "일기와 리뷰를 재생성할까요?",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 15, color: Colors.black54),
             ),
