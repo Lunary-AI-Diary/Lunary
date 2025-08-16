@@ -217,29 +217,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
+                    SizedBox(
+                      width: 250,
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.g_mobiledata),
                         label: const Text('Google'),
                         onPressed: () {}, // TODO: 구글 연동 로직 구현
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 0,
-                            vertical: 12,
-                          ),
-                          minimumSize: const Size(0, 48), // 높이 통일
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        icon: const Icon(Icons.facebook),
-                        label: const Text('Facebook'),
-                        onPressed: () {}, // TODO: 페이스북 연동 로직 구현
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
