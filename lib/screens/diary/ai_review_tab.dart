@@ -32,7 +32,10 @@ class AiReviewTab extends StatelessWidget {
       );
     }
 
-    final emotions = review!['emotions'] as Map<String, dynamic>? ?? {};
+    final rawEmotions = review!['emotions'];
+    final Map<String, dynamic> emotions = rawEmotions is Map
+        ? rawEmotions.map((k, v) => MapEntry(k.toString(), v))
+        : {};
     final advice = review!['advice'] as String? ?? '';
 
     // 감정 순서 지정

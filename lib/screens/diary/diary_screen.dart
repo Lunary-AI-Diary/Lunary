@@ -91,8 +91,6 @@ class _DiaryScreenState extends State<DiaryScreen>
       log('일기 불러오기 실패: $e', name: 'diary_screen.dart');
 
       setState(() {
-        _diaryTitle = "제목 없음";
-        _diaryContent = "일기를 불러올 수 없습니다.";
         _isDiaryLoading = false;
       });
     }
@@ -124,8 +122,6 @@ class _DiaryScreenState extends State<DiaryScreen>
       log('일기 재생성 실패: $e', name: 'diary_screen.dart');
 
       setState(() {
-        _diaryTitle = "제목 없음";
-        _diaryContent = "일기를 불러올 수 없습니다.";
         _isDiaryLoading = false;
       });
     }
@@ -187,7 +183,6 @@ class _DiaryScreenState extends State<DiaryScreen>
       log('리뷰 불러오기 실패: $e', name: 'diary_screen.dart');
 
       setState(() {
-        _review = {'advice': 'AI 리뷰를 불러올 수 없습니다.', 'emotions': {}};
         _isReviewLoading = false;
       });
     }
@@ -219,7 +214,6 @@ class _DiaryScreenState extends State<DiaryScreen>
 
       setState(() {
         _isReviewLoading = false;
-        _review = {'advice': 'AI 리뷰를 불러올 수 없습니다.', 'emotions': {}};
       });
     }
   }
