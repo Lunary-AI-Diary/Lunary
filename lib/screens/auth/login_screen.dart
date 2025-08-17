@@ -17,6 +17,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  // 비밀번호 가리기 상태
+  bool _obscure = true;
+
   // 로그인 처리 함수
   Future<void> _login() async {
     try {
@@ -113,17 +116,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // 비밀번호 입력창
+                      // 비밀번호 입력창 (가리기/보기 토글 추가)
                       TextField(
                         controller: _passwordController, // 컨트롤러 연결
-                        obscureText: true, // 입력값 가리기
+                        obscureText: _obscure, // 입력값 가리기
                         keyboardType: TextInputType.visiblePassword, // 비밀번호 키보드
                         autofillHints: const [
                           AutofillHints.password, // 자동완성 힌트
                         ],
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscure = !_obscure;
+                              });
+                            },
+                          ),
                           hintText: '비밀번호',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),

@@ -13,11 +13,18 @@ class AuthService {
   }
 
   // 회원가입 메서드
-  Future<UserCredential> signUpWithEmail(String email, String password) async {
-    return await _auth.createUserWithEmailAndPassword(
+  Future<UserCredential> signUpWithEmail(
+    String email,
+    String password,
+    String name,
+  ) async {
+    final credential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+    await credential.user?.updateDisplayName(name);
+    await credential.user?.reload();
+    return credential;
   }
 
   // 구글 로그인

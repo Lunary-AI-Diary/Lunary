@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Widget buildBottomButtons(
   BuildContext context, {
   required bool isEnabled,
-  required VoidCallback onContinue,
+  required Future<void> Function()? onContinue,
   String buttonText = "계속",
 }) {
   return Row(
@@ -16,7 +16,9 @@ Widget buildBottomButtons(
         child: Row(children: [Icon(Icons.arrow_back), Text(" 이전")]),
       ),
       ElevatedButton(
-        onPressed: isEnabled ? onContinue : null,
+        onPressed: isEnabled && onContinue != null
+            ? () async => await onContinue()
+            : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: isEnabled ? Colors.orange : Colors.orange.shade100,
           shape: RoundedRectangleBorder(

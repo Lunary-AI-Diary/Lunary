@@ -1,12 +1,25 @@
 // Step 3: 약관 동의 화면
 
 import 'package:flutter/material.dart';
+import 'package:lunary/screens/auth/login_screen.dart';
 import 'package:lunary/widgets/auth/common_header.dart';
 import 'package:lunary/widgets/auth/common_button.dart';
 import 'package:lunary/widgets/auth/sign_up_colors.dart';
+import 'package:lunary/services/auth_service.dart';
+import 'package:lunary/widgets/common_error_dialog.dart';
+import 'dart:developer';
 
 class SignUpStep3 extends StatefulWidget {
-  const SignUpStep3({super.key});
+  final String name;
+  final String email;
+  final String password;
+
+  const SignUpStep3({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 
   @override
   State<SignUpStep3> createState() => _SignUpStep3State();
@@ -17,6 +30,30 @@ class _SignUpStep3State extends State<SignUpStep3> {
   bool _agreeTerms = false;
 
   bool get _isFormValid => _agreePrivacy && _agreeTerms;
+
+  Future<void> _signUp() async {
+    try {
+      await AuthService().signUpWithEmail(
+        widget.email,
+        widget.password,
+        widget.name,
+      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('회원가입 성공!')));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => LoginScreen()),
+        (route) => false,
+      ); // 회원가입 후 로그인 화면으로 이동
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => CommonErrorDialog(message: '회원가입 실패'),
+      );
+      log('회원가입 실패: $e', name: 'sign_up_step3.dart');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +125,7 @@ class _SignUpStep3State extends State<SignUpStep3> {
                     context,
                     isEnabled: _isFormValid,
                     buttonText: "계정 생성",
-                    onContinue: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("회원가입 완료! (추후 로직 연결 필요)")),
-                      );
-                    },
+                    onContinue: _isFormValid ? () => _signUp() : null,
                   ),
                 ],
               ),

@@ -23,7 +23,7 @@ class _SignUpStep1State extends State<SignUpStep1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF5EF), // 배경색 추가
+      backgroundColor: const Color(0xFFFFF5EF),
       body: _buildBody(),
     );
   }
@@ -33,9 +33,8 @@ class _SignUpStep1State extends State<SignUpStep1> {
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: SingleChildScrollView(
-          // 스크롤 뷰로 감쌈
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 600), // 최소 높이 지정
+            constraints: const BoxConstraints(minHeight: 600),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -80,11 +79,17 @@ class _SignUpStep1State extends State<SignUpStep1> {
                 buildBottomButtons(
                   context,
                   isEnabled: _isFormValid,
-                  onContinue: () {
+                  onContinue: () async {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => SignUpStep2()),
+                      MaterialPageRoute(
+                        builder: (_) => SignUpStep2(
+                          name: _nameController.text.trim(),
+                          email: _emailController.text.trim(),
+                        ),
+                      ),
                     );
+                    return;
                   },
                 ),
               ],

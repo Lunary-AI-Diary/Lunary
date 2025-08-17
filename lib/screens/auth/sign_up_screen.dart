@@ -1,3 +1,6 @@
+// 더이상 사용하지 않는 위젯.
+// sign_up_screen1-3.dart로 대체
+
 import 'package:flutter/material.dart';
 import 'package:lunary/services/auth_service.dart';
 import 'package:lunary/widgets/common_error_dialog.dart';
@@ -14,12 +17,14 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final String nameExample = "anonymous";
 
   Future<void> _signUp() async {
     try {
       await AuthService().signUpWithEmail(
         _emailController.text.trim(),
         _passwordController.text.trim(),
+        nameExample,
       );
       ScaffoldMessenger.of(
         context,

@@ -7,7 +7,10 @@ import 'package:lunary/widgets/auth/common_button.dart';
 import 'package:lunary/widgets/auth/sign_up_colors.dart';
 
 class SignUpStep2 extends StatefulWidget {
-  const SignUpStep2({super.key});
+  final String name;
+  final String email;
+
+  const SignUpStep2({super.key, required this.name, required this.email});
 
   @override
   State<SignUpStep2> createState() => _SignUpStep2State();
@@ -32,7 +35,7 @@ class _SignUpStep2State extends State<SignUpStep2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF5EF), // 배경색 추가
+      backgroundColor: const Color(0xFFFFF5EF),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -123,11 +126,18 @@ class _SignUpStep2State extends State<SignUpStep2> {
                   buildBottomButtons(
                     context,
                     isEnabled: _isFormValid,
-                    onContinue: () {
+                    onContinue: () async {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => SignUpStep3()),
+                        MaterialPageRoute(
+                          builder: (_) => SignUpStep3(
+                            name: widget.name,
+                            email: widget.email,
+                            password: _pwController.text.trim(),
+                          ),
+                        ),
                       );
+                      return;
                     },
                   ),
                 ],
