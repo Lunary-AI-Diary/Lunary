@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lunary/screens/auth/sign_up_step1.dart';
 import 'package:lunary/services/auth_service.dart';
-import 'package:lunary/screens/auth/sign_up_screen.dart';
 import 'package:lunary/screens/home/home_screen.dart';
 import 'package:lunary/widgets/common_error_dialog.dart';
 import 'dart:developer';
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
+                              builder: (context) => SignUpStep1(),
                             ),
                           );
                         },
