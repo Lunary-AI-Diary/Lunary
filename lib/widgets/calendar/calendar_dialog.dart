@@ -161,35 +161,59 @@ class _CalendarDialogState extends State<CalendarDialog> {
                             });
                             widget.onDateSelected?.call(dateId);
                           },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color(0xFFFFE1B5)
-                            : isToday
-                            ? const Color(0xFFD6ECFF) // 오늘 날짜는 연한 파란색
-                            : isFuture
-                            ? Colors
-                                  .grey
-                                  .shade200 // 미래 날짜는 연한 회색
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$day',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: isSelected
-                              ? Colors.pink
-                              : isToday
-                              ? const Color(0xFF3399FF) // 오늘 날짜는 파란색 글씨
-                              : isFuture
-                              ? Colors
-                                    .grey // 미래 날짜는 회색 글씨
-                              : const Color(0xFF444444),
-                        ),
-                      ),
+                    child: StreamBuilder<int>(
+                      stream: _chatService.getMessageCountStream(dateId),
+                      builder: (context, snapshot) {
+                        final hasChat = (snapshot.data ?? 0) > 0;
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? const Color(
+                                        0xFFFFE1B5,
+                                      ) // 선택된 날짜는 연분홍으로 표시
+                                    : isToday
+                                    ? const Color(0xFFD6ECFF) // 오늘 날짜는 하늘색으로 표시
+                                    : isFuture
+                                    ? Colors
+                                          .grey
+                                          .shade200 // 미래 날짜는 회색으로 표시
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                '$day',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: isSelected
+                                      ? Colors.pink
+                                      : isToday
+                                      ? const Color(0xFF3399FF)
+                                      : isFuture
+                                      ? Colors.grey
+                                      : const Color(0xFF444444),
+                                ),
+                              ),
+                            ),
+                            if (hasChat) // 대화 기록이 있으면 핑크색 점 표시
+                              Positioned(
+                                bottom: 5,
+                                child: Container(
+                                  width: 4,
+                                  height: 4,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.pink,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
                     ),
                   );
                 },
