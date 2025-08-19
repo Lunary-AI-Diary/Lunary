@@ -1,4 +1,4 @@
-/// 공통 헤더 위젯
+// 공통 헤더 위젯
 
 import 'package:flutter/material.dart';
 
