@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lunary/screens/auth/sign_up_step2.dart';
 import 'package:lunary/widgets/auth/common_header.dart';
 import 'package:lunary/widgets/auth/common_button.dart';
-import 'package:lunary/widgets/auth/sign_up_colors.dart';
 
 class SignUpStep1 extends StatefulWidget {
   const SignUpStep1({super.key});
@@ -48,7 +47,7 @@ class _SignUpStep1State extends State<SignUpStep1> {
                 const SizedBox(height: 8),
                 Text(
                   "이메일은 로그인 시 필요하며, 이름은 프로필에 표시됩니다.",
-                  style: TextStyle(color: SignUpColors.textSecondary),
+                  style: TextStyle(color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30),

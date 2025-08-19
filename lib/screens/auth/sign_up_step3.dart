@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lunary/screens/auth/login_screen.dart';
 import 'package:lunary/widgets/auth/common_header.dart';
 import 'package:lunary/widgets/auth/common_button.dart';
-import 'package:lunary/widgets/auth/sign_up_colors.dart';
 import 'package:lunary/services/auth_service.dart';
 import 'package:lunary/widgets/common_error_dialog.dart';
 import 'dart:developer';
@@ -77,7 +76,7 @@ class _SignUpStep3State extends State<SignUpStep3> {
                   const SizedBox(height: 8),
                   Text(
                     "회원님의 개인정보는 안전하게 보관됩니다",
-                    style: TextStyle(color: SignUpColors.textSecondary),
+                    style: TextStyle(color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),

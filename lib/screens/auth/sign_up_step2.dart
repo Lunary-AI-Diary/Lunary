@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lunary/screens/auth/sign_up_step3.dart';
 import 'package:lunary/widgets/auth/common_header.dart';
 import 'package:lunary/widgets/auth/common_button.dart';
-import 'package:lunary/widgets/auth/sign_up_colors.dart';
 
 class SignUpStep2 extends StatefulWidget {
   final String name;
@@ -54,7 +53,7 @@ class _SignUpStep2State extends State<SignUpStep2> {
                   const SizedBox(height: 8),
                   Text(
                     "비밀번호는 본인만 알 수 있도록 어렵게 만들어\n계정 보안을 강화하세요",
-                    style: TextStyle(color: SignUpColors.textSecondary),
+                    style: TextStyle(color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 30),

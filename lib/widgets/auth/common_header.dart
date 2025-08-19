@@ -13,7 +13,7 @@ Widget buildHeader({required int step}) {
       ),
       const SizedBox(height: 12),
       Text("회원가입", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-      Text("3단계 중 $step 단계"),
+      Text("3단계 중 $step단계"),
     ],
   );
 }
