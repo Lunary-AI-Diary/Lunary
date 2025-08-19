@@ -28,6 +28,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   bool _isLoading = false; // 메세지 전송 버튼에 표시되는 로딩
   bool _showTypingIndicator = false; // AI 응답 생성 중에 말풍선에 표시되는 로딩
+  final ScrollController _scrollController =
+      ScrollController(); // 스크롤 상태 유지용 컨트롤러
 
   @override
   void initState() {
@@ -59,6 +61,12 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // 컨트롤러 해제
+    super.dispose();
   }
 
   @override
@@ -115,6 +123,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   // 메세지를 스크롤 가능한 UI로 보여줌
                   return ListView.builder(
+                    // 스크롤 위치를 기억하기 위한 key
+                    // 날짜 별로 기억하게 해 다른 채팅으로 이동해도 별도의 위치를 가지도록 함
+                    key: PageStorageKey(
+                      'chat_list_${widget.dateId}',
+                    ), // 스크롤 위치 보존 키
+                    controller: _scrollController, // 같은 컨트롤러 재사용
                     padding: const EdgeInsets.fromLTRB(
                       16,
                       16,
