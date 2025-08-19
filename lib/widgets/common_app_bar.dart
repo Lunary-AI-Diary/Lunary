@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/widgets/calendar/calendar_dialog.dart';
 import 'package:lunary/screens/auth/login_screen.dart';
+import 'package:lunary/widgets/profile_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -63,18 +64,22 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                         leading: const Icon(Icons.person),
                         title: const Text('프로필'),
                         onTap: () {
-                          // TODO: 프로필 화면으로 이동
+                          Navigator.of(context).pop(); // 모달 시트 닫기
+                          showDialog(
+                            context: context,
+                            builder: (context) => const ProfileDialog(),
+                          );
                         },
                       ),
 
-                      // 테마 변경
-                      ListTile(
-                        leading: const Icon(Icons.color_lens),
-                        title: const Text('테마'),
-                        onTap: () {
-                          // TODO: 테마 변경 화면으로 이동
-                        },
-                      ),
+                      // // 테마 변경
+                      // ListTile(
+                      //   leading: const Icon(Icons.color_lens),
+                      //   title: const Text('테마'),
+                      //   onTap: () {
+                      //     // TODO: 테마 변경 화면으로 이동
+                      //   },
+                      // ),
 
                       // 로그아웃
                       ListTile(

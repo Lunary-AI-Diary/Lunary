@@ -57,7 +57,7 @@ class _SignUpStep3State extends State<SignUpStep3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF5EF), // 배경색 추가
+      backgroundColor: const Color(0xFFFFF5EF),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
