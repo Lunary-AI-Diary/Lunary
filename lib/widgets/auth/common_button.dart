@@ -20,13 +20,37 @@ Widget buildBottomButtons(
             ? () async => await onContinue()
             : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isEnabled ? Colors.orange : Colors.orange.shade100,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(24),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          elevation: isEnabled ? 1 : 0, // 입체감 추가
+          shadowColor: isEnabled ? Colors.black : Colors.transparent, // 그림자 색상
         ),
-        child: Text(buttonText),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: isEnabled ? null : const Color(0xFFCCCCCC), // 비활성화 시 단색 회색
+            gradient: isEnabled
+                ? const LinearGradient(
+                    colors: [Color(0xFFFF5D8C), Color(0xFFFFC56B)],
+                  )
+                : null, // 활성화 시에만 그라디언트
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(minWidth: 100, minHeight: 48),
+            child: Text(
+              buttonText,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
       ),
     ],
   );
