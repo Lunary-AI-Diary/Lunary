@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunary/widgets/calendar/calendar_dialog.dart';
 import 'package:lunary/screens/auth/login_screen.dart';
-import 'package:lunary/widgets/profile_dialog.dart';
+import 'package:lunary/widgets/profile/profile_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -71,15 +71,6 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                           );
                         },
                       ),
-
-                      // // 테마 변경
-                      // ListTile(
-                      //   leading: const Icon(Icons.color_lens),
-                      //   title: const Text('테마'),
-                      //   onTap: () {
-                      //     // TODO: 테마 변경 화면으로 이동
-                      //   },
-                      // ),
 
                       // 로그아웃
                       ListTile(
