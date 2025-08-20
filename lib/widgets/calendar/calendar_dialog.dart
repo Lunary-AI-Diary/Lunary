@@ -57,7 +57,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
           maxWidth: 400,
           maxHeight:
               MediaQuery.of(context).size.height *
-              0.85, // 다이얼로그 크기를 화면의 90%로 제한
+              0.85, // 다이얼로그 크기를 화면의 85%로 제한
         ),
         child: SingleChildScrollView(
           // 스크롤 뷰 추가
@@ -148,10 +148,11 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: startOffset + lastDay.day,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 7,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 48, // 셀 최대 너비
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 8,
+                    childAspectRatio: 1, // 정사각형
                   ),
                   itemBuilder: (context, index) {
                     if (index < startOffset) return const SizedBox.shrink();
@@ -204,18 +205,21 @@ class _CalendarDialogState extends State<CalendarDialog> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 alignment: Alignment.center,
-                                child: Text(
-                                  '$day',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: isSelected
-                                        ? Colors.pink
-                                        : isToday
-                                        ? const Color(0xFF3399FF)
-                                        : isFuture
-                                        ? Colors.grey
-                                        : const Color(0xFF444444),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    '$day',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: isSelected
+                                          ? Colors.pink
+                                          : isToday
+                                          ? const Color(0xFF3399FF)
+                                          : isFuture
+                                          ? Colors.grey
+                                          : const Color(0xFF444444),
+                                    ),
                                   ),
                                 ),
                               ),
