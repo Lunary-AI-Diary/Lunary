@@ -69,7 +69,7 @@ class AiReviewTab extends StatelessWidget {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // <-- 배경색을 흰색으로 변경
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(18),
                       border: Border.all(
                         color: Colors.orange.shade100,
@@ -159,7 +159,7 @@ class AiReviewTab extends StatelessWidget {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white, // <-- 배경색을 흰색으로 변경
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(18),
                       border: Border.all(
                         color: Colors.orange.shade100,

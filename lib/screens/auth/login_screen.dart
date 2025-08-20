@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // 비밀번호 입력창 (가리기/보기 토글 추가)
+                      // 비밀번호 입력창 (가리기/보기 토글)
                       TextField(
                         controller: _passwordController, // 컨트롤러 연결
                         obscureText: _obscure, // 입력값 가리기

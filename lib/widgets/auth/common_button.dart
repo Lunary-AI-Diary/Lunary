@@ -25,7 +25,7 @@ Widget buildBottomButtons(
           ),
           padding: EdgeInsets.zero,
           backgroundColor: Colors.transparent,
-          elevation: isEnabled ? 1 : 0, // 입체감 추가
+          elevation: isEnabled ? 1 : 0, // 입체감
           shadowColor: isEnabled ? Colors.black : Colors.transparent, // 그림자 색상
         ),
         child: Ink(

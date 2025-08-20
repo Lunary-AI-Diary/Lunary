@@ -17,7 +17,7 @@ class CalendarDialog extends StatefulWidget {
 class _CalendarDialogState extends State<CalendarDialog> {
   final ChatService _chatService = ChatService();
   late DateTime selectedMonth;
-  String? _selectedDateId; // 선택된 날짜 상태 추가
+  String? _selectedDateId; // 선택된 날짜 상태
 
   @override
   void initState() {
@@ -60,7 +60,6 @@ class _CalendarDialogState extends State<CalendarDialog> {
               0.85, // 다이얼로그 크기를 화면의 85%로 제한
         ),
         child: SingleChildScrollView(
-          // 스크롤 뷰 추가
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
