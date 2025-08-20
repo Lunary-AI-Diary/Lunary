@@ -62,25 +62,33 @@ class AiDiaryTab extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const Spacer(),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange.shade50,
-                        foregroundColor: Colors.pink,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                    // const Spacer(),
+                    const SizedBox(width: 80),
+                    Flexible(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange.shade50,
+                          foregroundColor: Colors.pink,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 2,
+                          shadowColor: Colors.pink.withOpacity(0.15),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          minimumSize: const Size(120, 45),
                         ),
-                        elevation: 2,
-                        shadowColor: Colors.pink.withOpacity(0.15),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
+                        onPressed: () =>
+                            DiaryVersionsDialog.show(context, dateId),
+                        icon: const Icon(Icons.history, size: 18),
+                        label: const Text(
+                          "이전 버전",
+                          // maxLines: 1,
+                          // overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      onPressed: () =>
-                          DiaryVersionsDialog.show(context, dateId),
-                      icon: const Icon(Icons.history, size: 18),
-                      label: const Text("이전 버전"),
                     ),
                   ],
                 ),
