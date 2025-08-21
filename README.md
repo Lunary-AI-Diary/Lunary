@@ -53,7 +53,7 @@ asset/ # 이미지 등 기타 파일
 flutter pub get
 ```
 
-3. Firebase 설정 
+3. Firebase API 설정 
 - 프로젝트에 개인 Firebase 설정 초기화
 ```
 # 아래 세 파일을 따로 준비하세요
@@ -65,8 +65,18 @@ Lunary/
     └─firebase_options.dart
 └─firebase.json
 ```
-
-4. 앱 실행
+4. OpenAI API 설정
+- .env 환경변수 파일을 만들기
+```
+Lunary/
+└─.env
+```
+- OpenAI API 키 준비 및 입력
+```
+# .env
+OPENAI_API_KEY=your_openai_api_key
+```
+5. 앱 실행
 ```bash
 flutter run
 ```
