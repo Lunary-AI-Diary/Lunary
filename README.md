@@ -45,7 +45,7 @@ asset/ # 이미지 등 기타 파일
 ### 2. 직접 빌드
 1. 프로젝트 클론
  ```bash
- git clone https://github.com/username/lunary.git
+ git clone https://github.com/Lunary-AI-Diary/Lunary.git
  cd lunary
  ```
 2. 패키지 설치
