@@ -71,7 +71,37 @@ Lunary/
 flutter run
 ```
 
-## 🤝 Contribution
+## 🤝 Contributing
+We welcome contributions from everyone! Whether you are fixing bugs, improving features, or suggesting new ideas, your help is appreciated.
+To contribute to Lunary, please follow these steps:
+
+1. **Fork the repository** \
+   Click the "Fork" button at the top-right corner of this repository to create your own copy.
+
+2. **Create a branch** \
+   Name your branch clearly according to the feature or fix you are working on.
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+   
+3. **Make Changes & Commit**
+   ```bash
+   git add .
+   git commit -m "Add some feature"
+   ```
+   
+4. **Push to your forked repository**
+   ```bash
+   git push origin feature/your-feature
+   ```
+   
+5. **Create a Pull Request** \
+   Go to the original Lunary repository and open a Pull Request.
+   Describe your changes clearly so reviewers can understand your contribution.
+   
+### ✨ Tips:
+Feel free to open an issue first if you want to discuss your idea before implementing it.
+Everyone’s contribution is valued, no matter how big or small!
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
