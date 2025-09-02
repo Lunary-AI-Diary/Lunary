@@ -40,7 +40,7 @@ asset/ # 이미지 등 기타 파일
 ```
 ## 🚀 설치 및 실행
 ### 1. 안드로이드 전용 APK 설치
-[2025 오픈소스 개발자 대회 1차 제출](https://github.com/Lunary-AI-Diary/Lunary/releases/tag/v1.0.0-beta)
+[최신버전APK](https://github.com/Lunary-AI-Diary/Lunary/releases/tag/v1.0.0-beta)
 
 ### 2. 직접 빌드
 1. 프로젝트 클론
