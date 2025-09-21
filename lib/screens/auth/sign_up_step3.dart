@@ -26,9 +26,8 @@ class SignUpStep3 extends StatefulWidget {
 
 class _SignUpStep3State extends State<SignUpStep3> {
   bool _agreePrivacy = false;
-  bool _agreeTerms = false;
 
-  bool get _isFormValid => _agreePrivacy && _agreeTerms;
+  bool get _isFormValid => _agreePrivacy;
 
   Future<void> _signUp() async {
     try {
@@ -70,7 +69,7 @@ class _SignUpStep3State extends State<SignUpStep3> {
                   buildHeader(step: 3),
                   const SizedBox(height: 20),
                   Text(
-                    "서비스 이용 약관 및 개인정보 처리 방침",
+                    "개인정보 처리 방침",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
@@ -109,11 +108,6 @@ class _SignUpStep3State extends State<SignUpStep3> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  CheckboxListTile(
-                    title: Text("모든 서비스 이용 약관을 이해했으며 이에 동의합니다"),
-                    value: _agreeTerms,
-                    onChanged: (val) => setState(() => _agreeTerms = val!),
-                  ),
                   CheckboxListTile(
                     title: Text("모든 개인정보 처리 방침을 이해했으며 이에 동의합니다"),
                     value: _agreePrivacy,
