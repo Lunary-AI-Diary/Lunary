@@ -151,7 +151,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            CommonErrorDialog(message: '준비중입니다'),
+                      );
+                      log('아이디/비밀번호 찾기 요청: ', name: 'login_screen.dart');
+                    },
                     child: const Text('아이디/비밀번호 찾기'),
                   ),
                 ),
@@ -250,6 +257,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           } catch (e) {
+                            if (e is GoogleSignInCanceledException) {
+                              // 사용자가 취소한 경우: 아무 메시지도 띄우지 않음
+                              log(
+                                '사용자가 구글 로그인을 취소함',
+                                name: 'login_screen.dart',
+                              );
+                              return;
+                            }
                             showDialog(
                               context: context,
                               builder: (context) =>
@@ -275,34 +290,34 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 // TODO: 약관 이동 페이지 만들기
-                Column(
-                  children: [
-                    const Text.rich(
-                      TextSpan(
-                        text: '회원가입 진행 시, 귀하는 해당 ',
-                        children: [
-                          TextSpan(
-                            text: '서비스 정책',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                          TextSpan(text: ' 및 '),
-                          TextSpan(
-                            text: '개인정보 이용 약관',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                          TextSpan(text: ' 에 동의한 것으로 간주합니다. '),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
-                    ),
-                    const SizedBox(height: 4),
-                  ],
-                ),
+                // Column(
+                //   children: [
+                //     const Text.rich(
+                //       TextSpan(
+                //         text: '회원가입 진행 시, 귀하는 해당 ',
+                //         children: [
+                //           TextSpan(
+                //             text: '서비스 정책',
+                //             style: TextStyle(
+                //               decoration: TextDecoration.underline,
+                //             ),
+                //           ),
+                //           TextSpan(text: ' 및 '),
+                //           TextSpan(
+                //             text: '개인정보 이용 약관',
+                //             style: TextStyle(
+                //               decoration: TextDecoration.underline,
+                //             ),
+                //           ),
+                //           TextSpan(text: ' 에 동의한 것으로 간주합니다. '),
+                //         ],
+                //       ),
+                //       textAlign: TextAlign.center,
+                //       style: TextStyle(fontSize: 12, color: Colors.black54),
+                //     ),
+                //     const SizedBox(height: 4),
+                //   ],
+                // ),
               ],
             ),
           ),
