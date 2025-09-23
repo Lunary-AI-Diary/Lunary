@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lunary 계정/데이터 삭제</title>
+    <link rel="stylesheet" href="/accountDeletionCss" />
+  </head>
+  <body>
+    <h1>Lunary 계정/데이터 삭제</h1>
+    <p class="small">
+      이 페이지에서 본인 인증 후, 계정과 연계된 모든 데이터를 삭제할 수
+      있습니다.
+    </p>
+
+    <div id="signedOutView" class="card">
+      <h2>로그인</h2>
+      <div>
+        <label for="email">이메일</label>
+        <input id="email" type="email" placeholder="you@example.com" />
+        <label for="password">비밀번호</label>
+        <input id="password" type="password" placeholder="비밀번호" />
+        <div style="margin-top: 10px; display: flex; gap: 8px">
+          <button id="emailSignInBtn">이메일로 로그인</button>
+          <button id="googleSignInBtn">Google로 로그인</button>
+        </div>
+        <p class="small">앱에서 사용했던 계정으로 로그인하세요.</p>
+      </div>
+    </div>
+
+    <div id="signedInView" class="card hidden">
+      <h2>로그인됨</h2>
+      <p id="userInfo" class="small"></p>
+      <div
+        style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap"
+      >
+        <button id="deleteBtn" class="primary">계정과 데이터 모두 삭제</button>
+        <button id="signOutBtn">로그아웃</button>
+      </div>
+      <p class="small">
+        삭제는 되돌릴 수 없습니다. 앱 내 데이터, 계정 정보가 영구 삭제됩니다.
+      </p>
+    </div>
+
+    <div id="resultView" class="card hidden">
+      <h2>결과</h2>
+      <div id="status"></div>
+    </div>
+
+    <!-- Firebase Web SDK (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script>
+      window.FIREBASE_CONFIG = {
+        apiKey: "__API_KEY__",
+        authDomain: "__AUTH_DOMAIN__",
+        projectId: "__PROJECT_ID__",
+        appId: "__APP_ID__",
+        storageBucket: "__STORAGE_BUCKET__",
+        messagingSenderId: "__MESSAGING_SENDER_ID__",
+        measurementId: "__MEASUREMENT_ID__"
+      };
+    </script>
+    <script src="/accountDeletionJs"></script>
+
+    <hr />
+    <p class="small">
+      문제가 있으면 jls15900@gmail.com 으로 “계정 삭제 요청” 메일을
+      보내주세요.<br />
+      API: POST __API_URL__
+    </p>
+  </body>
+</html>

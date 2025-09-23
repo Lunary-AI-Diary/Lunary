@@ -11,7 +11,5 @@
     "noUnusedLocals": true
   },
   "compileOnSave": true,
-  "include": [
-    "src"
-  ]
+  "include": ["src", "assets/account-deletion.js"]
 }
