@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lunary/screens/auth/login_screen.dart';
 import 'package:lunary/widgets/common_error_dialog.dart';
+import 'package:lunary/services/account_deletion_service.dart';
 
 class WithdrawalDialog extends StatelessWidget {
   final User? user;
@@ -64,10 +65,13 @@ class WithdrawalDialog extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       try {
-                        await user?.delete();
+                        // 서버에서 계정+데이터 삭제
+                        await AccountDeletionService()
+                            .deleteMyAccountOnServer();
+
                         if (context.mounted) {
-                          Navigator.of(context).pop(); // 다이얼로그 닫기
-                          Navigator.of(context).pop(); // 프로필 다이얼로그 닫기
+                          Navigator.of(context).pop(); // 현재 다이얼로그
+                          Navigator.of(context).pop(); // 프로필 다이얼로그
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (_) => const LoginScreen(),
