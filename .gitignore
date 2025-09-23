@@ -61,6 +61,9 @@ lib/firebase_options.dart
 functions/node_modules/
 functions/lib/
 
+# functions config
+functions/functions_config
+
 # GitHub App credentials
 gha-creds-*.json
 
