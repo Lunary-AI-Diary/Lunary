@@ -46,18 +46,33 @@ app.*.map.json
 
 # env
 .env
+.env.*
+serviceAccountKey.json
+functions/.runtimeconfig.json
 
-# Firebase
-firebase.json
+# Firebase local cache
+.firebase/
+
+# Firebase API
 android/app/google-services.json
 lib/firebase_options.dart
-.firebaserc
 
-# gemini-cli settings
-.gemini/
+# Node (Cloud Functions)
+functions/node_modules/
+functions/lib/
 
 # GitHub App credentials
 gha-creds-*.json
 
-# keystore
+# Gemini-cli settings
+.gemini/
+
+# Signing / credentials
+*.keystore
+keystore.properties
 *.jks
+*.p12
+*.pem
+AuthKey_*.p8
+api-*.json
+client_secret_*.json
